@@ -41,7 +41,7 @@ h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
 .m b{position:absolute;top:-4px;width:4px;height:14px;background:#fff;border-radius:2px;transform:translateX(-2px)}
 .note{color:var(--mt);font-size:12px;margin-top:18px}
 #bc{display:none;position:static;inset:auto;width:100%;height:auto;border-radius:16px;touch-action:manipulation;margin:8px 0;background:#050B12}
-#bp{font-size:13px;color:var(--ac);margin:4px 0 8px;min-height:20px}
+#bp{font-size:13px;color:var(--mt);margin:8px 0;background:var(--bg);border:1px solid var(--ln);border-left:3px solid var(--ac);border-radius:10px;padding:8px 12px;line-height:1.45}#bp:empty{display:none}#bp b{color:var(--ac);font-weight:600}.gd p{margin:6px 0;font-size:13px;color:var(--mt)}.gd b{color:var(--tx)}
 </style>
 </head>
 <body>
@@ -50,7 +50,7 @@ h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
 
 <div class="stage" id="stage">
   <video id="v" playsinline muted></video><canvas id="c"></canvas>
-  <div class="hud"><small>Rodilla extendida</small><b id="hv">--°</b></div>
+  <div class="hud"><small id="hl">Rodilla extendida</small><b id="hv">--°</b></div>
   <div class="msg" id="msg">Cargando modelo de postura…</div>
 </div>
 
@@ -60,10 +60,12 @@ h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
   <button id="flip">Girar</button>
   <label class="btn" style="flex-direction:row;color:var(--tx)">Grabar<input id="rec" type="file" accept="video/*" capture="environment" hidden></label>
   <label class="btn" style="flex-direction:row;color:var(--tx)">Subir<input id="file" type="file" accept="video/*" hidden></label>
+  <label class="btn" style="flex-direction:row;color:var(--tx)">Vista<select id="vw" style="width:auto;margin-left:8px;padding:4px 8px"><option value="s">Lateral</option><option value="f">Frontal</option></select></label>
   <button id="cal">Calibrar</button>
   <button id="rst">Reiniciar</button>
 </div>
 
+<p class="note" style="margin:-4px 2px 8px">Colores de las líneas del cuerpo: <b class="ok">verde</b> = dentro del rango, <b class="wn">amarillo</b> = cerca del límite, <b class="bd">rojo</b> = fuera del rango. Los rangos son orientativos.</p>
 <details open><summary>Mis datos</summary>
 <div class="g">
   <label>Nombre (informe)<input id="nm" type="text" placeholder="opcional"></label>
@@ -78,6 +80,7 @@ h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
 <h2>Postura</h2><div id="a"></div>
 <h2>Calas y pie</h2><div id="b"></div>
 <h2>Medidas</h2><div id="c2"></div>
+<h2>Análisis frontal (ciclista pedaleando)</h2><div id="fa"></div>
 
 <h2>Bicicleta (fotos lateral y frontal)</h2>
 <details open><summary>Medir la bicicleta con la cámara</summary>
@@ -96,6 +99,11 @@ h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
 </div>
 <div class="bar" style="margin-top:0"><label class="btn" style="flex-direction:row;color:var(--tx)">Foto de la suela (calas)<input id="cfl" data-v="cla" type="file" accept="image/*" capture="environment" hidden></label></div>
 <p class="note" style="margin:0 0 10px">Calas: foto de la suela desde arriba, con la punta hacia arriba y una tarjeta (85.6 mm) o regla en el mismo plano. Con el pie puesto, palpa las cabezas del 1er y 5º metatarsiano y márcalas con cinta en el borde de la suela. Mide un pie a la vez. Esto mide la posición de la cala en la zapatilla, no el movimiento del pie al pedalear.</p>
+<details><summary>Guía paso a paso</summary><div class="gd">
+<p><b>Foto lateral de la bici.</b> Bici vertical y cámara de lado, perpendicular, a la altura del eje del pedalier y a unos 3 m, con toda la bici en cuadro. Elige tu rueda, pulsa "Foto lateral" y toca los puntos en el orden que indica la app: 4 bordes de la rueda trasera (izquierda, derecha, arriba y abajo), el eje del pedalier, la cola y la nariz del sillín, y el centro del manillar junto a la potencia. Si la rueda se ve ovalada, repite la foto.</p>
+<p><b>Foto frontal de la bici.</b> Cámara de frente, a la altura del manillar, a 3 m o más, con la rueda delantera recta. Toca arriba y abajo de la rueda delantera, los dos extremos del manillar, el centro de la potencia, el centro del sillín, y las puntas de las dos manetas.</p>
+<p><b>Calas.</b> Marca con cinta las cabezas del 1er y 5º metatarsiano en el borde de la suela, pon la zapatilla con la punta hacia arriba junto a una tarjeta de 85.6 mm y fotografía desde arriba. Toca talón, punta, dos extremos de la tarjeta, las dos marcas, el centro de la cala y los dos extremos de su eje largo. Luego repite con el otro pie.</p>
+<p><b>Si te equivocas</b> usa "Deshacer punto". Toca con la yema del dedo: el punto queda donde aparece el círculo amarillo.</p></div></details>
 <div id="bp"></div><canvas id="bc"></canvas><div id="bo"></div>
 <p class="note" style="margin:0 0 14px">Lateral: cámara perpendicular, a la altura del eje del pedalier, a unos 3 m, bici vertical. Frontal: cámara de frente a la altura del manillar, rueda recta. Mide el diámetro total de tu rueda con cubierta para mayor precisión.</p>
 </details>
@@ -153,7 +161,7 @@ function frame(){
     if(cv.width!==video.videoWidth){cv.width=video.videoWidth;cv.height=video.videoHeight;$('stage').style.aspectRatio=cv.width+'/'+cv.height}
     const res=lm.detectForVideo(video,performance.now());
     ctx.clearRect(0,0,cv.width,cv.height);
-    if(res.landmarks&&res.landmarks[0])analyze(res.landmarks[0]);
+    if(res.landmarks&&res.landmarks[0])($('vw').value==='f'?analyzeFront:analyze)(res.landmarks[0]);
   }
   requestAnimationFrame(frame);
 }
@@ -187,18 +195,19 @@ function analyze(raw){
 
   // Dibujo
   ctx.lineWidth=Math.max(3,W/320);ctx.lineCap='round';ctx.strokeStyle='#7CC4FF';
-  [[sh,el],[el,wr],[sh,hp],[hp,kn],[kn,an],[an,he],[an,ft],[he,ft]].forEach(([a,b])=>{ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()});
+  const T0=TT(),cK=st3(ext,[140,150],[135,155]),cH=st3(hipA,[45,90],[35,100]),cT=st3(torso,T0.ok,T0.wn),cE=st3(elbow,[150,165],[140,175]),cS=st3(shA,[75,95],[65,105]),cF=st3(bdc.fa,[5,20],[0,28]);
+  [[sh,el,cS],[el,wr,cE],[sh,hp,wc(cT,cH)],[hp,kn,cK],[kn,an,cK],[an,he,cF],[an,ft,cF],[he,ft,cF]].forEach(([a,b,c])=>{ctx.strokeStyle=c;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()});
   ctx.fillStyle='#fff';[sh,el,wr,hp,kn,an,he,ft].forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,Math.max(4,W/200),0,7);ctx.fill()});
   ctx.fillStyle='#F5C451';ctx.beginPath();ctx.arc(ball.x,ball.y,Math.max(6,W/150),0,7);ctx.fill();
   ctx.font=`600 ${Math.max(13,W/50)}px Sora,sans-serif`;ctx.fillStyle='#fff';
-  [[kn,knee],[hp,hipA],[el,elbow],[sh,shA]].forEach(([p,a])=>ctx.fillText(Math.round(a)+'°',p.x+10,p.y-10));
+  [[kn,knee,cK],[hp,hipA,cH],[el,elbow,cE],[sh,shA,cS]].forEach(([p,a,c])=>{ctx.fillStyle=c;ctx.fillText(Math.round(a)+'°',p.x+10,p.y-10)});
 
   const hc=ext>=140&&ext<=150?'var(--ok)':(ext>=135&&ext<=155?'var(--wn)':'var(--bd)');
-  $('hv').textContent=Math.round(ext)+'°';$('hv').style.color=hc;
+  $('hl').textContent='Rodilla extendida';$('hv').textContent=Math.round(ext)+'°';$('hv').style.color=hc;
 
   if(now-lastUI<150)return; lastUI=now;
   const type=$('type').value;
-  const T=type==='road'?{ok:[30,45],wn:[25,55]}:type==='gravel'?{ok:[35,50],wn:[28,60]}:type==='mtb'?{ok:[40,60],wn:[30,70]}:{ok:[50,75],wn:[40,85]};
+  const T=TT();
   const r=(n,v,sc,ok,wn,f)=>row(n,v,0,sc,ok,wn,f(v)).html;
   $('a').innerHTML=[
     r('Rodilla en el punto bajo',ext,[110,175],[140,150],[135,155],v=>v>155?'Sillín alto: bájalo':v>150?'Algo alto: baja 2–3 mm':v<135?'Sillín bajo: súbelo':v<140?'Algo bajo: sube 2–3 mm':'Correcta'),
@@ -231,6 +240,9 @@ const BP={lat:['Rueda trasera: extremo izquierdo','Rueda trasera: extremo derech
 cla:['Suela: extremo del talón (atrás)','Suela: punta (adelante)','Referencia de escala: un extremo','Referencia de escala: el otro extremo','Marca del 1er metatarsiano (interior)','Marca del 5º metatarsiano (exterior)','Centro de la cala','Cala: extremo trasero','Cala: extremo delantero'],
 fro:['Rueda delantera: punto más alto','Rueda delantera: punto más bajo','Manillar: extremo a la izquierda de la imagen','Manillar: extremo a la derecha de la imagen','Centro de la potencia','Centro del sillín (visto detrás)','Maneta: punta a la izquierda de la imagen','Maneta: punta a la derecha de la imagen']};
 const bc=$('bc'),bx=bc.getContext('2d');let bv=null,bpts=[],bimg=null;const NP=()=>bv==='cla'?9:8;
+const BH={lat:['Borde izquierdo del neumático, a la altura del centro de la rueda (la línea del eje).','Borde derecho del neumático, a la misma altura que el punto 1.','Punto más alto del neumático, justo encima del eje de la rueda.','Punto más bajo del neumático, donde toca el suelo, justo debajo del eje.','Centro del eje donde giran las bielas, en medio de la caja del pedalier.','Parte más atrás del sillín, sobre la superficie donde te sientas.','Punta delantera (nariz) del sillín, sobre esa misma superficie.','Centro del manillar donde se une a la potencia (el tornillo de la abrazadera), visto de lado.'],
+cla:['Borde más trasero de la suela, en el centro del talón.','Punta de la suela, en el centro de su borde delantero (en línea con el talón).','Una esquina del lado largo de la tarjeta o un extremo de la regla.','El extremo opuesto del mismo lado largo (85.6 mm en una tarjeta).','Tu marca de cinta del 1er metatarsiano, en el borde interior (lado del dedo gordo).','Tu marca del 5º metatarsiano, en el borde exterior (lado del dedo pequeño).','Centro de la cala, donde se cruzan su eje largo y su eje corto.','Extremo trasero de la cala, sobre su eje largo (el lado que mira al talón).','Extremo delantero de la cala, sobre el mismo eje largo (el lado que mira a la punta).'],
+fro:['Punto más alto del neumático delantero, en el centro, bajo la horquilla.','Punto más bajo del neumático, donde toca el suelo, en vertical bajo el punto 1.','Extremo exterior del manillar a la izquierda de la imagen (donde termina el puño o la cinta).','Extremo exterior del manillar a la derecha de la imagen.','Centro de la potencia, en la placa o el tornillo central del manillar.','Centro del sillín visto desde delante, si se ve detrás del manillar.','Punta de la maneta de freno a la izquierda de la imagen.','Punta de la maneta de freno a la derecha de la imagen.']};
 function setBike(v,src,w,h){bv=v;bpts=[];bimg=document.createElement('canvas');bimg.width=w;bimg.height=h;bimg.getContext('2d').drawImage(src,0,0,w,h);bc.width=w;bc.height=h;bc.style.display='block';$('bo').innerHTML='';drawBike()}
 function drawBike(){
   if(!bimg)return;bx.drawImage(bimg,0,0);const p=bpts,k=Math.max(5,bc.width/130);
@@ -241,7 +253,7 @@ function drawBike(){
   if(bv==='fro'){if(p.length>=2)ln(p[0],p[1]);if(p.length>=4)ln(p[2],p[3]);if(p.length>=8)ln(p[6],p[7])}
   if(bv==='cla'){if(p.length>=2)ln(p[0],p[1]);if(p.length>=4)ln(p[2],p[3]);if(p.length>=6)ln(p[4],p[5]);if(p.length>=9)ln(p[7],p[8])}
   p.forEach((q,i)=>{bx.beginPath();bx.arc(q.x,q.y,k,0,7);bx.fill();bx.fillText(i+1,q.x+k*1.4,q.y-k*1.4)});
-  $('bp').textContent=bv?(p.length<NP()?'Toca el punto '+(p.length+1)+' de '+NP()+': '+BP[bv][p.length]:'Puntos completos. Usa “Deshacer punto” para corregir.'):'';
+  $('bp').innerHTML=bv?(p.length<NP()?'<b>Punto '+(p.length+1)+' de '+NP()+': '+BP[bv][p.length]+'</b><br>'+BH[bv][p.length]:'Puntos completos. Usa “Deshacer punto” para corregir.'):'';
 }
 $('bfl').onchange=$('bfr').onchange=$('cfl').onchange=e=>{const f=e.target.files[0],v=e.target.dataset.v;if(!f)return;const im=new Image();im.onload=()=>{const k=Math.min(1,1600/Math.max(im.naturalWidth,im.naturalHeight));setBike(v,im,Math.round(im.naturalWidth*k),Math.round(im.naturalHeight*k))};im.src=URL.createObjectURL(f);e.target.value=''};
 function live(v){if(!video.videoWidth){msg.textContent='Primero inicia la cámara con el botón “Cámara”.';return}setBike(v,video,video.videoWidth,video.videoHeight);bc.scrollIntoView({behavior:'smooth'})}
@@ -323,6 +335,7 @@ async function pdfReport(){
   T('Estatura '+num('h')+' cm · Entrepierna '+($('inseam').value||'sin dato')+' cm · Largo del pie '+num('foot')+' cm · Biela '+num('crank')+' mm',10);
   T('Tipo de bici: '+sel('type')+' · Pedal / calas: '+sel('pedal'),10);
   sec('Postura en el pedaleo (vista lateral, estimación 2D)',rowsOf($('a')));
+  sec('Análisis frontal (observaciones, estimación 2D)',rowsOf($('fa')));
   sec('Calas y pie (análisis de video)',rowsOf($('b')));
   sec('Medidas de referencia',rowsOf($('c2')));
   sec('Bicicleta: vista lateral',(REP.lat||{rows:[]}).rows,REP.lat);
@@ -337,6 +350,44 @@ async function pdfReport(){
   doc.save(name);
 }
 $('pdf').onclick=async()=>{try{msg.textContent='Preparando PDF…';await pdfReport();msg.textContent='Informe listo.'}catch(e){msg.textContent='No se pudo crear el PDF: '+e.message}};
+
+// ===== Colores y análisis frontal del ciclista =====
+const GR='#4CD6A0',AM='#F5C451',RD='#FF7A6B',RKC={[GR]:0,[AM]:1,[RD]:2};
+const st3=(v,o,w)=>v>=o[0]&&v<=o[1]?GR:(v>=w[0]&&v<=w[1]?AM:RD);
+const stc=(v,a,b)=>v<=a?GR:v<=b?AM:RD,wc=(a,b)=>RKC[a]>=RKC[b]?a:b,cls=c=>c===GR?'ok':c===AM?'wn':'bd';
+const TT=()=>{const t=$('type').value;return t==='road'?{ok:[30,45],wn:[25,55]}:t==='gravel'?{ok:[35,50],wn:[28,60]}:t==='mtb'?{ok:[40,60],wn:[30,70]}:{ok:[50,75],wn:[40,85]}};
+const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,rng=a=>Math.max(...a)-Math.min(...a);
+let fbuf=[],flast=0;
+$('vw').onchange=()=>{buf=[];fbuf=[];['a','b','c2','fa'].forEach(i=>$(i).innerHTML='');msg.textContent=$('vw').value==='f'?'Vista frontal: cámara de frente, a la altura de la cadera y a unos 3 m, con hombros, caderas, rodillas y pies en cuadro. Tu lado derecho aparece a la izquierda de la imagen. Pedalea constante 10–15 s.':'Vista lateral: cámara de lado, a la altura de la cadera y a unos 3 m.'};
+function analyzeFront(raw){
+  const W=cv.width,Hh=cv.height,P=raw.map(p=>({x:p.x*W,y:p.y*Hh,v:p.visibility}));
+  const ids=[11,12,23,24,25,26,27,28],[sL,sR,hL,hR,kL,kR,aL,aR]=ids.map(i=>P[i]),hw=Math.abs(hL.x-hR.x);
+  const ln=(a,b,c)=>{ctx.strokeStyle=c;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()};
+  ctx.lineWidth=Math.max(3,W/300);ctx.lineCap='round';
+  if(!ids.every(i=>P[i].v>0.5)||hw<W/80){msg.textContent='Asegura que se vean hombros, caderas, rodillas y tobillos, de frente.';[[sL,sR],[hL,hR],[sL,hL],[sR,hR],[hL,kL],[kL,aL],[hR,kR],[kR,aR]].forEach(([a,b])=>ln(a,b,'#8FA3B8'));return}
+  const now=performance.now(),tilt=(a,b)=>Math.atan2(a.y-b.y,a.x-b.x)*180/Math.PI;
+  const dev=(h,k,a,sg)=>sg*(k.x-(h.x+(a.x-h.x)*(k.y-h.y)/((a.y-h.y)||1)))/hw*100;
+  fbuf.push({t:now,kl:dev(hL,kL,aL,1),kr:dev(hR,kR,aR,-1),pt:tilt(hL,hR),px:(hL.x+hR.x)/(2*hw)*100,st:tilt(sL,sR),sx:(sL.x+sR.x)/(2*hw)*100});
+  fbuf=fbuf.filter(o=>now-o.t<6000);
+  const ready=fbuf[fbuf.length-1].t-fbuf[0].t>2500,g=k=>fbuf.map(o=>o[k]);
+  const mkL=mean(g('kl')),mkR=mean(g('kr')),rkL=rng(g('kl')),rkR=rng(g('kr')),rp=rng(g('pt')),sp=rng(g('px')),rs=rng(g('st')),ss=rng(g('sx')),asym=Math.abs(mkL-mkR);
+  const ck=(m,r)=>wc(stc(Math.abs(m),10,20),stc(r,15,25)),N='#7CC4FF',cL=ready?ck(mkL,rkL):N,cR=ready?ck(mkR,rkR):N,cP=ready?wc(stc(rp,4,7),stc(sp,8,15)):N,cS=ready?wc(stc(rs,6,10),stc(ss,8,15)):N;
+  ctx.setLineDash([8,8]);ln(hL,aL,'rgba(255,255,255,.45)');ln(hR,aR,'rgba(255,255,255,.45)');ctx.setLineDash([]);
+  ln(sL,sR,cS);ln(hL,hR,cP);ln(sL,hL,N);ln(sR,hR,N);ln(hL,kL,cL);ln(kL,aL,cL);ln(hR,kR,cR);ln(kR,aR,cR);
+  ctx.fillStyle='#fff';[sL,sR,hL,hR,kL,kR,aL,aR].forEach(q=>{ctx.beginPath();ctx.arc(q.x,q.y,Math.max(4,W/200),0,7);ctx.fill()});
+  ctx.font=`600 ${Math.max(13,W/50)}px Sora,sans-serif`;ctx.fillText('Izq',kL.x+12,kL.y);ctx.fillText('Der',kR.x-48,kR.y);
+  const ca=ready?stc(asym,8,15):N;$('hl').textContent='Diferencia entre rodillas';$('hv').textContent=ready?asym.toFixed(0)+'%':'--';$('hv').style.color=ca;
+  if(now-flast<200)return;flast=now;
+  if(!ready){$('fa').innerHTML=RB('Midiendo…','—','Sigue pedaleando de forma constante unos segundos');return}
+  const sd=m=>Math.abs(m)<1?'centrada':m>0?'hacia afuera':'hacia adentro',kn=(n,m,r,c)=>RB(n,(m>0?'+':'')+m.toFixed(0)+'%','Posición media '+sd(m)+' respecto a la línea cadera–tobillo. Recorrido lateral: '+r.toFixed(0)+'%',cls(c));
+  $('fa').innerHTML=kn('Rodilla derecha del ciclista',mkR,rkR,cR)+kn('Rodilla izquierda del ciclista',mkL,rkL,cL)
+   +RB('Diferencia entre rodillas',asym.toFixed(0)+'%','Resta de las posiciones medias de ambas rodillas',cls(ca))
+   +RB('Inclinación de la pelvis (variación)',rp.toFixed(1)+'°','Cuánto cambia el ángulo de la línea de caderas durante el pedaleo',cls(stc(rp,4,7)))
+   +RB('Desplazamiento lateral de la pelvis',sp.toFixed(0)+'%','Balanceo de las caderas de lado a lado',cls(stc(sp,8,15)))
+   +RB('Inclinación de hombros (variación)',rs.toFixed(1)+'°','',cls(stc(rs,6,10)))
+   +RB('Balanceo lateral de hombros',ss.toFixed(0)+'%','',cls(stc(ss,8,15)))
+   +RB('Cómo leer estos valores','%','Porcentajes del ancho de tus caderas, sin calibrar en mm. Son observaciones 2D con umbrales orientativos no validados: no diagnostican nada. Si algo sale rojo, repite con la cámara nivelada y compara con un fitter.');
+}
 </script>
 </body>
 </html>
