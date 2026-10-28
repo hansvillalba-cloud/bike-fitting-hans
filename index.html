@@ -4,24 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#0B1624">
-<title>HansBikeFit · Análisis de postura</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap">
+<title>HansBikeFit Pro · Ajuste y análisis ciclista</title>
+<!-- Fuentes del sistema para reducir dependencias externas y mejorar el uso sin conexión. -->
 <style>
 :root{--bg:#0B1624;--sf:#122236;--sf2:#18304A;--ln:#233B57;--tx:#E8EEF5;--mt:#8FA3B8;--ac:#7CC4FF;--ok:#4CD6A0;--wn:#F5C451;--bd:#FF7A6B}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(900px 500px at 80% -10%,#16314F 0,transparent 60%),var(--bg);color:var(--tx);font:400 15px/1.5 'Sora',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-main{max-width:760px;margin:0 auto;padding:18px 14px 40px}
+body{margin:0;background:radial-gradient(900px 500px at 80% -10%,#16314F 0,transparent 60%),var(--bg);color:var(--tx);font:400 15px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:900px;margin:0 auto;padding:18px 14px 40px}
 header{display:flex;align-items:baseline;justify-content:space-between;margin:2px 2px 14px}
 h1{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:0}h1 span{color:var(--ac);font-weight:300}
 header p{margin:0;color:var(--mt);font-size:12px}
-.stage{position:relative;background:#050B12;border-radius:22px;overflow:hidden;aspect-ratio:4/3;max-height:68vh;width:100%;border:1px solid var(--ln)}
+.stage{position:relative;background:#050B12;border-radius:22px;overflow:hidden;aspect-ratio:4/3;max-height:none;width:100%;border:1px solid var(--ln)}
 video,canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .hud{position:absolute;top:12px;left:12px;background:rgba(11,22,36,.78);backdrop-filter:blur(8px);border:1px solid var(--ln);border-radius:16px;padding:8px 14px;min-width:132px}
 .hud small{display:block;color:var(--mt);font-size:11px}
 .hud b{font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
 .msg{position:absolute;left:12px;right:12px;bottom:12px;font-size:14px;background:rgba(11,22,36,.78);backdrop-filter:blur(8px);padding:8px 12px;border-radius:12px}
-.bar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-button,.btn{font:600 13px 'Sora',system-ui,sans-serif;color:var(--tx);background:var(--sf);border:1px solid var(--ln);padding:12px 16px;min-height:46px;border-radius:14px;cursor:pointer;display:inline-flex;align-items:center}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.quicknav{display:flex;gap:8px;overflow-x:auto;padding:6px 0 12px;margin-bottom:8px;position:sticky;top:0;z-index:10;background:rgba(11,22,36,.94);backdrop-filter:blur(8px)}.quicknav a{flex:none;text-decoration:none;color:var(--tx);background:var(--sf);border:1px solid var(--ln);border-radius:999px;padding:9px 12px;font-size:12px;font-weight:600}.quicknav a:focus,.quicknav a:hover{border-color:var(--ac)}.callout{background:var(--sf);border:1px solid var(--ln);border-left:3px solid var(--wn);border-radius:14px;padding:12px 14px;color:var(--mt);font-size:13px;margin:12px 0}.actions{display:flex;flex-wrap:wrap;gap:8px}.danger{border-color:#7f3d42!important;color:#ffb6ae!important}.r .v{white-space:normal;text-align:right}.muted{color:var(--mt)}.session-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:560px){.g,.session-list{grid-template-columns:1fr}header{align-items:flex-start;gap:8px;flex-direction:column}h1{font-size:22px}.r div.t{align-items:flex-start}.r .v{font-size:18px;max-width:55%}}
+button,.btn{font:600 13px system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--tx);background:var(--sf);border:1px solid var(--ln);padding:12px 16px;min-height:46px;border-radius:14px;cursor:pointer;display:inline-flex;align-items:center}
 button.p{background:var(--ac);border-color:var(--ac);color:#06223B}
 button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 details{background:var(--sf);border:1px solid var(--ln);border-radius:18px;margin:10px 0;padding:0 14px}
@@ -29,7 +29,7 @@ summary{cursor:pointer;font-weight:600;padding:14px 0;list-style:none;display:fl
 summary::after{content:'+';color:var(--ac)}details[open] summary::after{content:'–'}
 .g{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-bottom:14px}
 label{display:flex;flex-direction:column;font-size:12px;color:var(--mt);gap:4px}
-input,select{font:600 16px 'Sora',sans-serif;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:12px;padding:10px;width:100%}
+input,select{font:600 16px system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:12px;padding:10px;width:100%}
 h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
 .r{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:12px 14px;margin-bottom:8px}
 .r div.t{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
@@ -40,53 +40,66 @@ h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
 .m i{position:absolute;top:0;bottom:0;background:#4CD6A055;border-radius:3px}
 .m b{position:absolute;top:-4px;width:4px;height:14px;background:#fff;border-radius:2px;transform:translateX(-2px)}
 .note{color:var(--mt);font-size:12px;margin-top:18px}
-#bc{display:none;position:static;inset:auto;width:100%;height:auto;border-radius:16px;touch-action:manipulation;margin:8px 0;background:#050B12}
+#bc{display:none;position:static;inset:auto;width:100%;height:auto;border-radius:16px;touch-action:manipulation;margin:8px 0;background:#050B12}#c{touch-action:manipulation;cursor:crosshair}
 #bp{font-size:13px;color:var(--mt);margin:8px 0;background:var(--bg);border:1px solid var(--ln);border-left:3px solid var(--ac);border-radius:10px;padding:8px 12px;line-height:1.45}#bp:empty{display:none}#bp b{color:var(--ac);font-weight:600}.gd p{margin:6px 0;font-size:13px;color:var(--mt)}.gd b{color:var(--tx)}
 </style>
 </head>
 <body>
 <main>
-<header><h1>HansBike<span>Fit</span></h1><p>Análisis de postura con cámara</p></header>
+<header><h1>HansBike<span>Fit Pro</span></h1><p>Ajuste ciclista guiado · medidas lineales en cm</p></header>
+<nav class="quicknav" aria-label="Navegación rápida">
+  <a href="#profileSection">Ciclista</a><a href="#bikeSection">Bicicleta</a><a href="#postureSection">Postura</a><a href="#cleatSection">Calas</a><a href="#sessionSection">Sesiones e informe</a>
+</nav>
+<div class="callout"><b>Importante:</b> los resultados de cámara son observaciones 2D y los rangos son orientativos, no diagnósticos. La aplicación no prescribe por sí sola cambios de sillín, potencia o calas. Verifica las medidas con herramientas físicas y, si hay dolor, detén la prueba y consulta a un profesional.</div>
 
 <div class="stage" id="stage">
   <video id="v" playsinline muted></video><canvas id="c"></canvas>
-  <div class="hud"><small id="hl">Rodilla extendida</small><b id="hv">--°</b></div>
+  <div class="hud"><small id="hl">Ángulo máximo de rodilla</small><b id="hv">--°</b></div>
   <div class="msg" id="msg">Cargando modelo de postura…</div>
 </div>
 
 <div class="bar">
-  <button class="p" id="cd">Empezar en 10 s</button>
+  <button class="p" id="cd">Iniciar evaluación (10 s)</button>
   <button id="cam">Cámara</button>
   <button id="flip">Girar</button>
   <label class="btn" style="flex-direction:row;color:var(--tx)">Grabar<input id="rec" type="file" accept="video/*" capture="environment" hidden></label>
   <label class="btn" style="flex-direction:row;color:var(--tx)">Subir<input id="file" type="file" accept="video/*" hidden></label>
   <label class="btn" style="flex-direction:row;color:var(--tx)">Vista<select id="vw" style="width:auto;margin-left:8px;padding:4px 8px"><option value="s">Lateral</option><option value="f">Frontal</option></select></label>
   <button id="cal">Calibrar</button>
-  <button id="rst">Reiniciar</button>
+  <button id="rst">Limpiar medición actual</button>
+  <button id="stop">Detener cámara</button>
 </div>
 
-<p class="note" style="margin:-4px 2px 8px">Colores de las líneas del cuerpo: <b class="ok">verde</b> = dentro del rango, <b class="wn">amarillo</b> = cerca del límite, <b class="bd">rojo</b> = fuera del rango. Los rangos son orientativos.</p>
-<details open><summary>Mis datos</summary>
+<p class="note" style="margin:-4px 2px 8px">Los colores solo indican comparación con referencias orientativas seleccionadas; no constituyen diagnóstico ni una recomendación automática.</p>
+<details open id="profileSection"><summary>Perfil del ciclista y antropometría</summary>
 <div class="g">
-  <label>Nombre (informe)<input id="nm" type="text" placeholder="opcional"></label>
-  <label>Estatura (cm)<input id="h" type="number" value="175" inputmode="decimal"></label>
-  <label>Entrepierna (cm)<input id="inseam" type="number" placeholder="ej. 82" inputmode="decimal"></label>
-  <label>Largo del pie (cm)<input id="foot" type="number" value="26" step="0.5" inputmode="decimal"></label>
-  <label>Largo de biela (mm)<input id="crank" type="number" value="170" step="2.5" inputmode="decimal"></label>
-  <label>Tipo de bici<select id="type"><option value="road">Ruta</option><option value="mtb">MTB</option><option value="gravel">Gravel</option><option value="comfort">Urbana / Confort</option></select></label>
-  <label>Pedal / calas<select id="pedal"><option value="spdsl">Ruta SPD-SL</option><option value="keo">Ruta Look Keo</option><option value="spd">MTB SPD</option></select></label>
-</div></details>
+  <label>Nombre o código del ciclista<input id="nm" type="text" placeholder="opcional"></label>
+  <label>Estatura (cm)<input id="h" type="number" value="175" min="50" max="250" step="0.1" inputmode="decimal"></label>
+  <label>Entrepierna (cm)<input id="inseam" type="number" placeholder="ej. 82" min="30" max="150" step="0.1" inputmode="decimal"></label>
+  <label>Longitud de pie (cm, general)<input id="foot" type="number" value="26" min="10" max="40" step="0.1" inputmode="decimal"></label>
+  <label>Pie izquierdo (cm)<input id="footL" type="number" placeholder="opcional" min="10" max="40" step="0.1" inputmode="decimal"></label>
+  <label>Pie derecho (cm)<input id="footR" type="number" placeholder="opcional" min="10" max="40" step="0.1" inputmode="decimal"></label>
+  <label>Longitud de biela actual (cm)<input id="crank" type="number" value="17" min="14" max="20" step="0.1" inputmode="decimal"></label>
+  <label>Torso (cm)<input id="torsoLen" type="number" placeholder="opcional" min="20" max="100" step="0.1" inputmode="decimal"></label>
+  <label>Brazo izquierdo (cm)<input id="armL" type="number" placeholder="opcional" min="20" max="100" step="0.1" inputmode="decimal"></label>
+  <label>Brazo derecho (cm)<input id="armR" type="number" placeholder="opcional" min="20" max="100" step="0.1" inputmode="decimal"></label>
+  <label>Anchura de hombros (cm)<input id="shoulderW" type="number" placeholder="opcional" min="20" max="70" step="0.1" inputmode="decimal"></label>
+  <label>Peso (kg, opcional)<input id="weight" type="number" placeholder="opcional" min="20" max="300" step="0.1" inputmode="decimal"></label>
+  <label>Referencia visible para calibrar (cm)<input id="calref" type="number" value="50" min="1" max="300" step="0.1" inputmode="decimal"></label>
+  <label>Tipo de bicicleta<select id="type"><option value="road">Ruta</option><option value="mtb">MTB / XC</option><option value="gravel">Gravel</option><option value="comfort">Urbana / híbrida</option></select></label>
+  <label>Sistema de pedal / cala<select id="pedal"><option value="spdsl">Ruta SPD-SL</option><option value="keo">Look Keo</option><option value="spd">MTB SPD</option><option value="other">Otro / no sé</option></select></label>
+</div><p class="note">Para calibrar la escala corporal, coloca una regla o vara de longitud conocida en el mismo plano que el ciclista. Pulsa “Calibrar” y marca sus dos extremos en la imagen. No uses la estatura estimada de los puntos corporales como escala física.</p></details>
 
-<h2>Postura</h2><div id="a"></div>
-<h2>Calas y pie</h2><div id="b"></div>
-<h2>Medidas</h2><div id="c2"></div>
-<h2>Análisis frontal (ciclista pedaleando)</h2><div id="fa"></div>
+<h2 id="postureSection">Postura lateral</h2><div id="a"></div>
+<h2 id="cleatSection">Calas y pie</h2><div id="b"></div>
+<h2>Medidas antropométricas y referencias</h2><div id="c2"></div>
+<h2>Análisis frontal del ciclista</h2><div id="fa"></div>
 
-<h2>Bicicleta (fotos lateral y frontal)</h2>
+<h2 id="bikeSection">Geometría de la bicicleta (fotografías)</h2>
 <details open><summary>Medir la bicicleta con la cámara</summary>
 <div class="g">
-  <label>Rueda de referencia<select id="wsel"><option value="680">700c ruta (28 mm)</option><option value="695">700c gravel / ciudad (38 mm)</option><option value="740">29" MTB</option><option value="698">27.5" MTB</option><option value="660">26"</option></select></label>
-  <label>Diámetro total medido (mm)<input id="wmm" type="number" value="680" inputmode="decimal"></label>
+  <label>Diámetro de rueda de referencia (cm, aproximado)<select id="wsel"><option value="68">700c ruta (aprox.)</option><option value="69.5">700c gravel / urbana (aprox.)</option><option value="74">29” MTB (aprox.)</option><option value="69.8">27,5” MTB (aprox.)</option><option value="66">26” (aprox.)</option></select></label>
+  <label>Diámetro total medido con cubierta (cm)<input id="wmm" type="number" value="68" min="30" max="100" step="0.1" inputmode="decimal"></label>
 </div>
 <div class="bar" style="margin-top:0">
   <label class="btn" style="flex-direction:row;color:var(--tx)">Foto lateral<input id="bfl" data-v="lat" type="file" accept="image/*" capture="environment" hidden></label>
@@ -95,62 +108,82 @@ h2{font-size:13px;font-weight:600;color:var(--mt);margin:22px 4px 8px}
 </div>
 <div class="g" style="padding-bottom:6px">
   <label>Pie a medir (calas)<select id="cft"><option value="L">Izquierdo</option><option value="R">Derecho</option></select></label>
-  <label>Longitud de referencia (mm)<input id="cmm" type="number" value="85.6" step="0.1" inputmode="decimal"></label>
+  <label>Longitud de referencia (cm)<input id="cmm" type="number" value="8.56" min="1" max="30" step="0.01" inputmode="decimal"></label>
 </div>
 <div class="bar" style="margin-top:0"><label class="btn" style="flex-direction:row;color:var(--tx)">Foto de la suela (calas)<input id="cfl" data-v="cla" type="file" accept="image/*" capture="environment" hidden></label></div>
-<p class="note" style="margin:0 0 10px">Calas: foto de la suela desde arriba, con la punta hacia arriba y una tarjeta (85.6 mm) o regla en el mismo plano. Con el pie puesto, palpa las cabezas del 1er y 5º metatarsiano y márcalas con cinta en el borde de la suela. Mide un pie a la vez. Esto mide la posición de la cala en la zapatilla, no el movimiento del pie al pedalear.</p>
+<p class="note" style="margin:0 0 10px">Calas: fotografía la suela desde arriba, con la punta hacia arriba y una tarjeta de 8,56 cm o una regla en el mismo plano. Con el pie puesto, palpa las cabezas del 1er y 5º metatarsiano y márcalas con cinta en el borde de la suela. Mide un pie a la vez. Esto mide la posición de la cala en la zapatilla, no el movimiento del pie al pedalear.</p>
 <details><summary>Guía paso a paso</summary><div class="gd">
 <p><b>Foto lateral de la bici.</b> Bici vertical y cámara de lado, perpendicular, a la altura del eje del pedalier y a unos 3 m, con toda la bici en cuadro. Elige tu rueda, pulsa "Foto lateral" y toca los puntos en el orden que indica la app: 4 bordes de la rueda trasera (izquierda, derecha, arriba y abajo), el eje del pedalier, la cola y la nariz del sillín, y el centro del manillar junto a la potencia. Si la rueda se ve ovalada, repite la foto.</p>
 <p><b>Foto frontal de la bici.</b> Cámara de frente, a la altura del manillar, a 3 m o más, con la rueda delantera recta. Toca arriba y abajo de la rueda delantera, los dos extremos del manillar, el centro de la potencia, el centro del sillín, y las puntas de las dos manetas.</p>
-<p><b>Calas.</b> Marca con cinta las cabezas del 1er y 5º metatarsiano en el borde de la suela, pon la zapatilla con la punta hacia arriba junto a una tarjeta de 85.6 mm y fotografía desde arriba. Toca talón, punta, dos extremos de la tarjeta, las dos marcas, el centro de la cala y los dos extremos de su eje largo. Luego repite con el otro pie.</p>
+<p><b>Calas.</b> Marca con cinta las cabezas del 1er y 5º metatarsiano en el borde de la suela, pon la zapatilla con la punta hacia arriba junto a una tarjeta de 8,56 cm y fotografía desde arriba. Toca talón, punta, dos extremos de la tarjeta, las dos marcas, el centro de la cala y los dos extremos de su eje largo. Luego repite con el otro pie.</p>
 <p><b>Si te equivocas</b> usa "Deshacer punto". Toca con la yema del dedo: el punto queda donde aparece el círculo amarillo.</p></div></details>
 <div id="bp"></div><canvas id="bc"></canvas><div id="bo"></div>
-<p class="note" style="margin:0 0 14px">Lateral: cámara perpendicular, a la altura del eje del pedalier, a unos 3 m, bici vertical. Frontal: cámara de frente a la altura del manillar, rueda recta. Mide el diámetro total de tu rueda con cubierta para mayor precisión.</p>
+<p class="note" style="margin:0 0 14px">Las longitudes de la interfaz se muestran en centímetros (cm); los ángulos, en grados (°). La escala de la foto es aproximada y debe comprobarse con una cinta métrica. En vista frontal las diferencias laterales solo son interpretables si la cámara está centrada y nivelada.</p>
 </details>
-<div class="bar"><button class="p" id="pdf">Generar informe PDF</button></div>
-<p class="note">Cámara de lado, en horizontal, a la altura de la cadera y a unos 3 m. Ropa ajustada y pedaleo constante de 10–15 s. Estimación 2D: sirve de guía y no reemplaza un fitting presencial. Rotación de calas y ancho de postura requieren vista frontal.</p>
+<section id="sessionSection">
+<h2>Sesiones e informes</h2>
+<div class="g">
+  <label>Nombre de la sesión<input id="sessionName" type="text" placeholder="Ej. Ajuste ruta octubre"></label>
+  <label>Sesión guardada<select id="sessionSelect"><option value="">Sin sesiones guardadas</option></select></label>
+</div>
+<div class="actions">
+  <button class="p" id="saveSession">Guardar sesión</button><button id="loadSession">Cargar sesión</button><button id="deleteSession" class="danger">Eliminar sesión</button>
+  <button id="pdf">Generar informe PDF</button><button id="exportBackup">Exportar respaldo JSON</button>
+  <label class="btn">Importar respaldo JSON<input id="importBackup" type="file" accept="application/json,.json" hidden></label>
+  <button id="clearLocal" class="danger">Borrar todos los datos locales</button>
+</div>
+<p class="note">Las sesiones se guardan en este navegador/dispositivo. Por privacidad, el historial no guarda automáticamente fotos ni videos; conserva datos, resultados y medidas mostradas. El almacenamiento local del navegador no está cifrado: úsalo solo en un dispositivo confiable y no guardes datos sensibles de clientes hasta incorporar autenticación/cifrado. Exporta un respaldo JSON para transferirlo; no existe sincronización en la nube.</p>
+</section>
+<p class="note">Recomendaciones de uso: cámara lateral a la altura aproximada de la cadera, perpendicular al ciclista, con el cuerpo y los pies visibles. Graba 10–15 s de pedaleo estable. La aplicación es una herramienta de medición y seguimiento, no sustituye una evaluación profesional. No uses rangos orientativos como diagnóstico.</p>
 </main>
 
 <script type="module">
-import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
 const $=id=>document.getElementById(id), video=$('v'), cv=$('c'), ctx=cv.getContext('2d'), msg=$('msg');
-let lm=null, stream=null, facing='environment', cmPerPx=null, buf=[], last=null, lastUI=0;
+let lm=null, stream=null, facing='environment', cmPerPx=null, buf=[], last=null, lastUI=0, lastDetect=0, lastVideoTime=-1, calibrationMode=false, calibrationPoint=null, calibrationLength=0, currentObjectURL=null;
 const num=id=>+$(id).value||0;
 // Guardar datos del usuario en el dispositivo
-const ids=['nm','h','inseam','foot','crank','type','pedal'];
-try{const s=JSON.parse(localStorage.getItem('bf')||'{}');ids.forEach(k=>{if(s[k]!=null)$(k).value=s[k]})}catch(_){}
-ids.forEach(k=>$(k).addEventListener('input',()=>{try{localStorage.setItem('bf',JSON.stringify(Object.fromEntries(ids.map(i=>[i,$(i).value]))))}catch(_){}}));
+const ids=['nm','h','inseam','foot','footL','footR','crank','torsoLen','armL','armR','shoulderW','weight','calref','type','pedal','wmm','wsel','cmm','cft'];
+try{const s=JSON.parse(localStorage.getItem('bf')||'{}');ids.forEach(k=>{if(s[k]!=null&&$(k))$(k).value=s[k]});if(num('crank')>20)$('crank').value=(num('crank')/10).toFixed(1);if(num('wmm')>100)$('wmm').value=(num('wmm')/10).toFixed(1);if(num('cmm')>30)$('cmm').value=(num('cmm')/10).toFixed(2);const oldW={'680':'68','695':'69.5','740':'74','698':'69.8','660':'66'};if(oldW[s.wsel]||oldW[$('wsel').value])$('wsel').value=oldW[s.wsel]||oldW[$('wsel').value];if(!['68','69.5','74','69.8','66'].includes($('wsel').value))$('wsel').value='68';if(num('wmm')===0)$('wmm').value=$('wsel').value}catch(_){}
+ids.forEach(k=>{if(!$(k))return;const save=()=>{try{const obj={};ids.forEach(i=>{if($(i))obj[i]=$(i).value});localStorage.setItem('bf',JSON.stringify(obj))}catch(_){}};$(k).addEventListener('input',save);$(k).addEventListener('change',save)});
 
 (async()=>{
-  const fs=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
-  const M="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
-  const mk=d=>PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:M,delegate:d},runningMode:"VIDEO",numPoses:1});
-  try{lm=await mk("GPU")}catch(e){lm=await mk("CPU")}
-  msg.textContent=window.isSecureContext?"Listo. Usa el temporizador, la cámara o sube un video.":"Abre esta página con https para usar la cámara en vivo.";
-})().catch(e=>msg.textContent="No se pudo cargar el modelo: "+e.message);
+  try{
+    // Carga bajo demanda: si no hay conexión, las mediciones manuales, calas, sesiones e informes siguen disponibles.
+    const vision=await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm");
+    const fs=await vision.FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
+    const M="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+    const mk=d=>vision.PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:M,delegate:d},runningMode:"VIDEO",numPoses:1});
+    try{lm=await mk("GPU")}catch(e){lm=await mk("CPU")}
+    msg.textContent=window.isSecureContext?"Modelo de postura listo. Usa el temporizador, la cámara o sube un video.":"Abre esta página en HTTPS para usar la cámara en vivo.";
+  }catch(e){console.warn('Modelo de postura no disponible:',e);msg.textContent="El análisis automático de postura necesita conexión para cargar el modelo. Las mediciones manuales, calas y sesiones siguen disponibles.";}
+})();
 
 async function start(){
-  stopStream();
+  stopStream();cmPerPx=null;calibrationMode=false;calibrationPoint=null;
   try{
-    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:facing},width:{ideal:1280}},audio:false});
+    if(!navigator.mediaDevices?.getUserMedia) throw new Error('La cámara necesita HTTPS o un contexto local seguro.');
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:facing},width:{ideal:1280},height:{ideal:720}},audio:false});
     try{await navigator.wakeLock?.request('screen')}catch(_){}
-    video.srcObject=stream; video.loop=false; await video.play(); msg.textContent="Analizando…";
-  }catch(e){msg.textContent="Sin acceso a la cámara (requiere https): "+e.message}
+    video.srcObject=stream; video.loop=false; await video.play(); msg.textContent="Cámara activa. Encuadra todo el cuerpo y espera a que se detecten los puntos.";
+  }catch(e){msg.textContent="No se pudo iniciar la cámara: "+e.message}
 }
 function stopStream(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
 $('cam').onclick=start;
+$('stop').onclick=()=>{stopStream();video.pause();msg.textContent='Cámara detenida. Puedes volver a iniciarla cuando quieras.'};
 $('flip').onclick=()=>{facing=facing==='environment'?'user':'environment';start()};
-$('rec').onchange=$('file').onchange=e=>{const f=e.target.files[0];if(!f)return;stopStream();video.srcObject=null;video.src=URL.createObjectURL(f);video.loop=true;video.play();buf=[];msg.textContent="Analizando video…"};
+$('rec').onchange=$('file').onchange=e=>{const f=e.target.files[0];if(!f)return;stopStream();cmPerPx=null;calibrationMode=false;calibrationPoint=null;video.srcObject=null;if(currentObjectURL)URL.revokeObjectURL(currentObjectURL);currentObjectURL=URL.createObjectURL(f);video.src=currentObjectURL;video.loop=true;video.play().catch(err=>msg.textContent='No se pudo reproducir el video: '+err.message);buf=[];fbuf=[];msg.textContent="Analizando video localmente."};
 $('cd').onclick=async()=>{
-  if(!stream)await start(); if(!stream)return; buf=[]; let n=10;
-  const t=setInterval(()=>{msg.textContent=n>0?"Súbete a la bici y pedalea: "+n:"Midiendo… sigue pedaleando";if(n--<=0){clearInterval(t);buf=[]}},1000);
+  if(video.readyState<2){if(!video.srcObject&&!video.src){await start();if(!stream)return}else{msg.textContent='Espera a que el video termine de cargar y vuelve a iniciar la evaluación.';return}} buf=[]; let n=10;
+  const t=setInterval(()=>{msg.textContent=n>0?'Súbete a la bici y pedalea: '+n:'Midiendo… sigue pedaleando';if(n--<=0){clearInterval(t);buf=[]}},1000);
 };
-$('rst').onclick=()=>{buf=[]};
+$('rst').onclick=()=>{buf=[];fbuf=[];last=null;cmPerPx=null;calibrationMode=false;calibrationPoint=null;['a','b','c2','fa'].forEach(id=>$(id).innerHTML='');ctx.clearRect(0,0,cv.width,cv.height);msg.textContent='Medición actual limpiada. Inicia de nuevo cuando estés preparado.'};
 $('cal').onclick=()=>{
-  if(!last){msg.textContent="No hay persona detectada.";return}
-  const {P,I}=last; cmPerPx=(num('h')*0.93)/Math.hypot(P[0].x-P[I.he].x,P[0].y-P[I.he].y);
-  msg.textContent="Calibrado con "+num('h')+" cm de estatura (de pie, de lado).";
+  calibrationLength=num('calref');
+  if(!(calibrationLength>0)){msg.textContent='Introduce una longitud de referencia válida en cm.';return}
+  if(!video.videoWidth){msg.textContent='Inicia la cámara o reproduce un video antes de calibrar.';return}
+  calibrationMode=true;calibrationPoint=null;msg.textContent='Calibración activa: toca el primer extremo y luego el segundo extremo de una regla/vara de longitud conocida, colocada en el mismo plano que el ciclista.';
 };
+cv.addEventListener('pointerdown',e=>{if(!calibrationMode)return;const r=cv.getBoundingClientRect(),q={x:(e.clientX-r.left)*cv.width/r.width,y:(e.clientY-r.top)*cv.height/r.height};if(!calibrationPoint){calibrationPoint=q;msg.textContent='Primer extremo marcado. Ahora toca el segundo extremo de la referencia.'}else{const d=Math.hypot(q.x-calibrationPoint.x,q.y-calibrationPoint.y);if(d<10){msg.textContent='Los puntos están demasiado cerca. Repite la calibración.';calibrationPoint=null;return}cmPerPx=calibrationLength/d;calibrationMode=false;calibrationPoint=null;msg.textContent='Escala calibrada: '+calibrationLength.toFixed(1)+' cm de referencia. La precisión depende de que la regla y el ciclista estén en el mismo plano.'}});
 
 const R={sh:12,el:14,wr:16,hip:24,kn:26,an:28,he:30,ft:32}, L={sh:11,el:13,wr:15,hip:23,kn:25,an:27,he:29,ft:31};
 const ang=(a,b,c)=>{const v1=[a.x-b.x,a.y-b.y],v2=[c.x-b.x,c.y-b.y];return Math.abs(Math.atan2(v1[0]*v2[1]-v1[1]*v2[0],v1[0]*v2[0]+v1[1]*v2[1])*180/Math.PI)};
@@ -159,9 +192,10 @@ const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 function frame(){
   if(lm&&video.readyState>=2&&video.videoWidth){
     if(cv.width!==video.videoWidth){cv.width=video.videoWidth;cv.height=video.videoHeight;$('stage').style.aspectRatio=cv.width+'/'+cv.height}
-    const res=lm.detectForVideo(video,performance.now());
-    ctx.clearRect(0,0,cv.width,cv.height);
-    if(res.landmarks&&res.landmarks[0])($('vw').value==='f'?analyzeFront:analyze)(res.landmarks[0]);
+    const now=performance.now();
+    // Limita la inferencia para reducir consumo de CPU/GPU y mantener fluida la interfaz (aprox. 8 fps).
+    if(now-lastDetect>=125&&video.currentTime!==lastVideoTime){lastVideoTime=video.currentTime;lastDetect=now;try{const res=lm.detectForVideo(video,now);ctx.clearRect(0,0,cv.width,cv.height);if(res.landmarks&&res.landmarks[0])($('vw').value==='f'?analyzeFront:analyze)(res.landmarks[0]);else{last=null;msg.textContent='No se detecta el cuerpo completo. Ajusta la cámara y la iluminación.'}}catch(err){ctx.clearRect(0,0,cv.width,cv.height);msg.textContent='Error en el análisis visual: '+err.message}}
+    if(calibrationPoint){ctx.fillStyle='#F5C451';ctx.beginPath();ctx.arc(calibrationPoint.x,calibrationPoint.y,Math.max(6,cv.width/150),0,Math.PI*2);ctx.fill()}
   }
   requestAnimationFrame(frame);
 }
@@ -179,18 +213,20 @@ function analyze(raw){
   const W=cv.width,Hh=cv.height;
   const P=raw.map(p=>({x:p.x*W,y:p.y*Hh,v:p.visibility}));
   const vis=m=>Object.values(m).reduce((s,i)=>s+P[i].v,0);
-  const I=vis(R)>=vis(L)?R:L; last={P,I};
+  const I=vis(R)>=vis(L)?R:L;
   const sh=P[I.sh],el=P[I.el],wr=P[I.wr],hp=P[I.hip],kn=P[I.kn],an=P[I.an],he=P[I.he],ft=P[I.ft];
+  if([sh,el,wr,hp,kn,an,he,ft].some(p=>!Number.isFinite(p.v)||p.v<0.45)){last=null;msg.textContent='Se necesitan hombro, codo, muñeca, cadera, rodilla, tobillo, talón y pie visibles. Ajusta la cámara o la ropa y repite.';return}
+  last={P,I};
   const knee=ang(hp,kn,an), hipA=ang(sh,hp,kn), elbow=ang(sh,el,wr), shA=ang(hp,sh,el);
   const torso=Math.atan2(Math.abs(sh.y-hp.y),Math.abs(sh.x-hp.x))*180/Math.PI;
   // Pie: escala local, eje del pedal (metatarsiano ≈ 73% talón→punta) y ángulo
-  const dir=Math.sign(ft.x-he.x)||1, footLen=num('foot')||26;
+  const dir=Math.sign(ft.x-he.x)||1, footLen=(I===R?(num('footR')||num('foot')):(num('footL')||num('foot')))||26;
   const fs=footLen/Math.max(dist(he,ft),1);
   const ball={x:he.x+(ft.x-he.x)*0.73,y:he.y+(ft.y-he.y)*0.73};
   const footAng=Math.atan2(ft.y-he.y,Math.abs(ft.x-he.x))*180/Math.PI;
   const now=performance.now();
   buf.push({t:now,a:knee,fa:footAng,off:dir*(kn.x-ball.x)*fs,fwd:dir*(an.x-hp.x)}); buf=buf.filter(o=>now-o.t<4000);
-  const bdc=buf.reduce((m,o)=>o.a>m.a?o:m), tdc=buf.reduce((m,o)=>o.a<m.a?o:m), q3=buf.reduce((m,o)=>o.fwd>m.fwd?o:m);
+  const bdc=buf.reduce((m,o)=>o.a>m.a?o:m), tdc=buf.reduce((m,o)=>o.a<m.a?o:m);
   const ext=bdc.a, flex=tdc.a;
 
   // Dibujo
@@ -199,39 +235,46 @@ function analyze(raw){
   [[sh,el,cS],[el,wr,cE],[sh,hp,wc(cT,cH)],[hp,kn,cK],[kn,an,cK],[an,he,cF],[an,ft,cF],[he,ft,cF]].forEach(([a,b,c])=>{ctx.strokeStyle=c;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()});
   ctx.fillStyle='#fff';[sh,el,wr,hp,kn,an,he,ft].forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,Math.max(4,W/200),0,7);ctx.fill()});
   ctx.fillStyle='#F5C451';ctx.beginPath();ctx.arc(ball.x,ball.y,Math.max(6,W/150),0,7);ctx.fill();
-  ctx.font=`600 ${Math.max(13,W/50)}px Sora,sans-serif`;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.max(13,W/50)}px system-ui,sans-serif`;ctx.fillStyle='#fff';
   [[kn,knee,cK],[hp,hipA,cH],[el,elbow,cE],[sh,shA,cS]].forEach(([p,a,c])=>{ctx.fillStyle=c;ctx.fillText(Math.round(a)+'°',p.x+10,p.y-10)});
 
   const hc=ext>=140&&ext<=150?'var(--ok)':(ext>=135&&ext<=155?'var(--wn)':'var(--bd)');
-  $('hl').textContent='Rodilla extendida';$('hv').textContent=Math.round(ext)+'°';$('hv').style.color=hc;
+  $('hl').textContent='Ángulo máximo de rodilla';$('hv').textContent=Math.round(ext)+'°';$('hv').style.color=hc;
 
   if(now-lastUI<150)return; lastUI=now;
   const type=$('type').value;
   const T=TT();
   const r=(n,v,sc,ok,wn,f)=>row(n,v,0,sc,ok,wn,f(v)).html;
+  const caution=v=>'Medición 2D comparada con una referencia orientativa; verifica calibración, fase del pedaleo y comodidad. Este dato por sí solo no indica qué componente cambiar.';
   $('a').innerHTML=[
-    r('Rodilla en el punto bajo',ext,[110,175],[140,150],[135,155],v=>v>155?'Sillín alto: bájalo':v>150?'Algo alto: baja 2–3 mm':v<135?'Sillín bajo: súbelo':v<140?'Algo bajo: sube 2–3 mm':'Correcta'),
-    r('Rodilla en el punto alto',flex,[40,110],[65,80],[60,90],v=>v<65?'Cadera muy cerrada: revisa altura del sillín o potencia':v>80?'Abierta: normal si el sillín está alto':'Correcta'),
-    r('Cadera',hipA,[20,130],[45,90],[35,100],v=>v<45?'Cerrada: sube el manillar o acorta la potencia':'Correcta'),
-    r('Inclinación del tronco',torso,[10,90],T.ok,T.wn,v=>v<T.ok[0]?'Muy baja: sube el manillar':v>T.ok[1]?'Muy erguida: baja el manillar':'Correcta'),
-    r('Codo',elbow,[100,180],[150,165],[140,175],v=>v>165?'Brazos rígidos: acerca el manillar':v<150?'Muy flexionado: aleja o sube el manillar':'Correcta'),
-    r('Hombro',shA,[40,120],[75,95],[65,105],v=>v>95?'Alcance largo: acorta la potencia':v<75?'Alcance corto: alarga la potencia':'Correcta'),
+    r('Ángulo máximo de rodilla observado (ventana de 4 s)',ext,[110,175],[140,150],[135,155],caution),
+    r('Ángulo mínimo de rodilla observado (ventana de 4 s)',flex,[40,110],[65,80],[60,90],caution),
+    r('Ángulo de cadera observado',hipA,[20,130],[45,90],[35,100],caution),
+    r('Inclinación del tronco respecto a la horizontal',torso,[10,90],T.ok,T.wn,caution),
+    r('Ángulo de codo observado',elbow,[100,180],[150,165],[140,175],caution),
+    r('Ángulo hombro–cadera–codo',shA,[40,120],[75,95],[65,105],caution),
+    info('Interpretación','No prescriptiva','Los máximos y mínimos se observan durante la ventana analizada; no se identifican con precisión las fases de máxima extensión o máxima flexión del ciclo. No subir/bajar el sillín solo a partir de estos valores.')
   ].join('');
 
-  const off=q3.off, fa=bdc.fa, pedal=$('pedal').value;
-  const flo={spdsl:'SPD-SL: calas con 6° de juego (amarillas) o 0° (azules, más fijas)',keo:'Look Keo: calas grises de 4.5° o negras de 0°; rojas de 9° si hay molestias en la rodilla',spd:'SPD MTB: calas de 6° de juego, con liberación fácil'}[pedal];
+  const off=buf.reduce((sum,o)=>sum+o.off,0)/Math.max(1,buf.length), fa=buf.reduce((sum,o)=>sum+o.fa,0)/Math.max(1,buf.length), pedal=$('pedal').value;
+  const flo={spdsl:'SPD-SL: el juego angular depende del modelo/color de cala',keo:'Look Keo: el juego angular depende del modelo/color de cala',spd:'SPD MTB: compatibilidad y liberación dependen del modelo de cala',other:'Otro sistema: identifica marca y modelo antes de hacer ajustes'}[pedal];
   $('b').innerHTML=[
-    row('Rodilla vs eje del pedal (pedal a las 3)',off,1,[-6,6],[-1.5,1.5],[-3,3],off>3?'Rodilla muy adelantada: retrasa el sillín 1–2 cm':off<-3?'Rodilla muy atrás: adelanta el sillín 1–2 cm':'Dentro del rango').html.replace(/ cm</,' cm<'),
-    r('Ángulo del pie en el punto bajo',fa,[-15,45],[5,20],[0,28],v=>v>28?'Punta muy caída: cala algo adelantada, retrásala 2–3 mm':v<0?'Talón muy bajo: avanza la cala o sube el sillín':v<5?'Casi plano: prueba avanzar la cala 2 mm':v>20?'Algo caída: vigila la carga en gemelos':'Correcta'),
-    info('Marca de cala',(footLen*0.73).toFixed(1)+' cm','Mide desde el talón: ahí va el centro de la cala, bajo el metatarsiano (punto amarillo en pantalla)'),
+    row('Separación horizontal rodilla–referencia aproximada del antepié',off,1,[-3,3],[-1.5,1.5],[-2,2],'Estimación 2D basada en referencias del pie; no equivale a la relación rodilla–eje del pedal (KOPS) ni determina retroceso del sillín.').html,
+    r('Ángulo promedio del pie observado',fa,[-15,45],[5,20],[0,28],v=>'Observación 2D; valida la postura y la orientación real del pie. No recomienda mover la cala por sí sola.'),
+    info('Referencia anatómica en video','Estimación visual','El punto amarillo se aproxima usando el 73% del talón a la punta. No sustituye marcar los metatarsianos y medir la suela en el módulo de calas.'),
     info('Tipo de cala',flo.split(':')[0],flo.split(': ')[1]),
   ].join('');
 
-  const ins=num('inseam')||num('h')*0.45, f=(a,b)=>(dist(a,b)*cmPerPx).toFixed(1)+' cm';
-  let m=info('Altura de sillín',(ins*0.883).toFixed(1)+' cm','Del eje del pedalier al tope del sillín (LeMond: entrepierna × 0.883)'+($('inseam').value?'':'. Entrepierna estimada')),
-  cr=ins*2.16; m+=info('Biela recomendada',cr.toFixed(0)+' mm',Math.abs(cr-num('crank'))>5?'Tu biela actual es de '+num('crank')+' mm':'Coincide con tu biela actual');
-  if(cmPerPx)m+=info('Fémur',f(hp,kn),'Define el retroceso del sillín')+info('Tibia',f(kn,an),'')+info('Tronco',f(sh,hp),'Influye en el alcance')+info('Brazo',((dist(sh,el)+dist(el,wr))*cmPerPx).toFixed(1)+' cm','');
-  else m+=info('Largos de segmentos','—','Ponte de pie, de lado y entero en cuadro, y pulsa “Calibrar”');
+  const ins=num('inseam'), f=(a,b)=>(dist(a,b)*cmPerPx).toFixed(1)+' cm';
+  let m='';
+  if(ins>0)m+=info('Referencia inicial de altura del sillín',(ins*0.883).toFixed(1)+' cm','Estimación antropométrica (entrepierna × 0,883), no es una prescripción. Mide altura real desde el centro del eje del pedalier hasta la referencia del sillín con un protocolo consistente.');
+  else m+=info('Referencia inicial de altura del sillín','—','Ingresa la entrepierna para ver una estimación orientativa; verifica con medición física y pedaleo.');
+  m+=info('Longitud de biela actual',num('crank')>0?num('crank').toFixed(1)+' cm':'Sin dato','No se recomienda una longitud óptima con una única fórmula de entrepierna. Valorar proporciones, movilidad, objetivo, compatibilidad y prueba dinámica.');
+  if(cmPerPx)m+=info('Fémur (aprox. por video)',f(hp,kn),'Longitud estimada 2D; el marcador corporal puede no coincidir con los puntos anatómicos exactos.')+info('Tibia (aprox. por video)',f(kn,an),'Estimación 2D con calibración manual.')+info('Segmento hombro–cadera',f(sh,hp),'Estimación 2D con calibración manual.')+info('Brazo (hombro–codo–muñeca)',((dist(sh,el)+dist(el,wr))*cmPerPx).toFixed(1)+' cm','Estimación 2D con calibración manual.');
+  else m+=info('Longitudes de segmentos por video','—','Para convertir píxeles a centímetros, coloca una referencia de longitud conocida en el mismo plano que el ciclista, pulsa “Calibrar” y toca los dos extremos.');
+  if(num('torsoLen')>0)m+=info('Torso medido',num('torsoLen').toFixed(1)+' cm','Medición manual registrada.');
+  if(num('armL')>0||num('armR')>0)m+=info('Brazos medidos',(num('armL')>0?'Izq. '+num('armL').toFixed(1)+' cm':'Izq. sin dato')+' · '+(num('armR')>0?'Der. '+num('armR').toFixed(1)+' cm':'Der. sin dato'),'Medidas manuales; usa siempre el mismo protocolo.');
+  if(num('shoulderW')>0)m+=info('Anchura de hombros',num('shoulderW').toFixed(1)+' cm','Medida manual; no equivale necesariamente al ancho nominal de manillar recomendado.');
   $('c2').innerHTML=m;
 }
 
@@ -241,7 +284,7 @@ cla:['Suela: extremo del talón (atrás)','Suela: punta (adelante)','Referencia 
 fro:['Rueda delantera: punto más alto','Rueda delantera: punto más bajo','Manillar: extremo a la izquierda de la imagen','Manillar: extremo a la derecha de la imagen','Centro de la potencia','Centro del sillín (visto detrás)','Maneta: punta a la izquierda de la imagen','Maneta: punta a la derecha de la imagen']};
 const bc=$('bc'),bx=bc.getContext('2d');let bv=null,bpts=[],bimg=null;const NP=()=>bv==='cla'?9:8;
 const BH={lat:['Borde izquierdo del neumático, a la altura del centro de la rueda (la línea del eje).','Borde derecho del neumático, a la misma altura que el punto 1.','Punto más alto del neumático, justo encima del eje de la rueda.','Punto más bajo del neumático, donde toca el suelo, justo debajo del eje.','Centro del eje donde giran las bielas, en medio de la caja del pedalier.','Parte más atrás del sillín, sobre la superficie donde te sientas.','Punta delantera (nariz) del sillín, sobre esa misma superficie.','Centro del manillar donde se une a la potencia (el tornillo de la abrazadera), visto de lado.'],
-cla:['Borde más trasero de la suela, en el centro del talón.','Punta de la suela, en el centro de su borde delantero (en línea con el talón).','Una esquina del lado largo de la tarjeta o un extremo de la regla.','El extremo opuesto del mismo lado largo (85.6 mm en una tarjeta).','Tu marca de cinta del 1er metatarsiano, en el borde interior (lado del dedo gordo).','Tu marca del 5º metatarsiano, en el borde exterior (lado del dedo pequeño).','Centro de la cala, donde se cruzan su eje largo y su eje corto.','Extremo trasero de la cala, sobre su eje largo (el lado que mira al talón).','Extremo delantero de la cala, sobre el mismo eje largo (el lado que mira a la punta).'],
+cla:['Borde más trasero de la suela, en el centro del talón.','Punta de la suela, en el centro de su borde delantero (en línea con el talón).','Una esquina del lado largo de la tarjeta o un extremo de la regla.','El extremo opuesto del mismo lado largo (8,56 cm en una tarjeta estándar).','Tu marca de cinta del 1er metatarsiano, en el borde interior (lado del dedo gordo).','Tu marca del 5º metatarsiano, en el borde exterior (lado del dedo pequeño).','Centro de la cala, donde se cruzan su eje largo y su eje corto.','Extremo trasero de la cala, sobre su eje largo (el lado que mira al talón).','Extremo delantero de la cala, sobre el mismo eje largo (el lado que mira a la punta).'],
 fro:['Punto más alto del neumático delantero, en el centro, bajo la horquilla.','Punto más bajo del neumático, donde toca el suelo, en vertical bajo el punto 1.','Extremo exterior del manillar a la izquierda de la imagen (donde termina el puño o la cinta).','Extremo exterior del manillar a la derecha de la imagen.','Centro de la potencia, en la placa o el tornillo central del manillar.','Centro del sillín visto desde delante, si se ve detrás del manillar.','Punta de la maneta de freno a la izquierda de la imagen.','Punta de la maneta de freno a la derecha de la imagen.']};
 function setBike(v,src,w,h){bv=v;bpts=[];bimg=document.createElement('canvas');bimg.width=w;bimg.height=h;bimg.getContext('2d').drawImage(src,0,0,w,h);bc.width=w;bc.height=h;bc.style.display='block';$('bo').innerHTML='';drawBike()}
 function drawBike(){
@@ -260,33 +303,33 @@ function live(v){if(!video.videoWidth){msg.textContent='Primero inicia la cámar
 $('bll').onclick=()=>live('lat');$('bfv').onclick=()=>live('fro');
 bc.addEventListener('pointerdown',e=>{if(!bv||bpts.length>=NP())return;const r=bc.getBoundingClientRect();bpts.push({x:(e.clientX-r.left)*bc.width/r.width,y:(e.clientY-r.top)*bc.height/r.height});drawBike();if(bpts.length===NP())calcBike()});
 $('bu').onclick=()=>{bpts.pop();$('bo').innerHTML='';drawBike()};
-$('wsel').onchange=e=>{$('wmm').value=e.target.value;if(bpts.length===NP())calcBike()};$('wmm').oninput=()=>{if(bpts.length===NP())calcBike()};
+$('wsel').onchange=e=>{$('wmm').value=e.target.value;try{const q={};ids.forEach(i=>{if($(i))q[i]=$(i).value});localStorage.setItem('bf',JSON.stringify(q))}catch(_){}if(bpts.length===NP())calcBike()};$('wmm').oninput=()=>{if(bpts.length===NP())calcBike()};
 function calcBike(){
   if(bv==='cla')return calcCleat();
-  const p=bpts,D=num('wmm'),o=$('bo');if(!D){o.innerHTML=info('Falta el diámetro de la rueda','—','Indica el diámetro total en mm para calcular la escala');return}
-  const bi=(n,v,t,c)=>`<div class="r"><div class="t"><span class="n">${n}</span><span class="v ${c||''}">${v}</span></div><div class="l ${c||'i'}">${t}</div></div>`,cl=a=>a<=3?'ok':a<=6?'wn':'bd';
+  const p=bpts,D=num('wmm'),o=$('bo');if(!(D>0)){o.innerHTML=info('Falta el diámetro de la rueda','—','Indica el diámetro total en cm para calcular la escala');return}
+  const bi=(n,v,t,c)=>`<div class="r"><div class="t"><span class="n">${n}</span><span class="v ${c||''}">${v}</span></div><div class="l ${c||'i'}">${t}</div></div>`,cl=a=>Math.abs(a)<=0.3?'ok':Math.abs(a)<=0.6?'wn':'bd';
   let h='',s,tol;
   if(bv==='lat'){
-    const w=dist(p[0],p[1]),hh=dist(p[2],p[3]),ov=(hh/w-1)*100;s=D/((w+hh)/2);tol=Math.max(3,4*s);
-    const bb=p[4],tl=p[5],ns=p[6],br=p[7],d=Math.sign(br.x-bb.x)||1,ce={x:(tl.x+ns.x)/2,y:(tl.y+ns.y)/2},m=(n,v,t)=>bi(n,Math.round(v)+' mm ±'+Math.round(tol),t),rec=(num('inseam')||num('h')*0.45)*8.83,dl=dist(bb,ce)*s;
-    h+=Math.abs(ov)>4?bi('Calidad de la foto',ov.toFixed(1)+'%','La rueda se ve ovalada: la cámara no está perpendicular. Repite la foto.','bd'):bi('Calidad de la foto','Buena','Rueda casi circular ('+ov.toFixed(1)+'% de deformación)','ok');
-    h+=m('Distancia eje pedalier–sillín',dl,'Aproxima la altura del sillín si su centro está sobre el eje del tubo. Referencia entrepierna × 0.883 = '+Math.round(rec)+' mm (diferencia '+Math.round(dl-rec)+' mm)')
-     +m('Altura vertical eje–sillín',(bb.y-ce.y)*s,'')
+    const w=dist(p[0],p[1]),hh=dist(p[2],p[3]);if(w<20||hh<20){o.innerHTML=info('Medición inválida','—','Los puntos de la rueda están demasiado cerca o no se marcaron correctamente. Repite la foto.');return}const ov=(hh/w-1)*100;s=D/((w+hh)/2);tol=Math.max(0.3,4*s);
+    const bb=p[4],tl=p[5],ns=p[6],br=p[7],d=Math.sign(br.x-bb.x)||1,ce={x:(tl.x+ns.x)/2,y:(tl.y+ns.y)/2},m=(n,v,t)=>bi(n,v.toFixed(1)+' cm ±'+tol.toFixed(1)+' cm',t),rec=num('inseam')*0.883,dl=dist(bb,ce)*s;
+    h+=Math.abs(ov)>4?bi('Calidad de la foto',ov.toFixed(1)+'%','La rueda parece deformada en la imagen: repite con la cámara perpendicular.','bd'):bi('Calidad de la foto','Revisar escala','Rueda casi circular ('+ov.toFixed(1)+'% de diferencia entre diámetros). Esto no garantiza precisión física.','wn');
+    h+=m('Distancia eje pedalier–centro del sillín',dl,'Medida geométrica aproximada en la foto; no equivale automáticamente a la altura de sillín definida por el protocolo del fabricante. Referencia antropométrica de entrepierna × 0,883 = '+(rec>0?rec.toFixed(1)+' cm':'sin dato')+'. Confirma con cinta métrica.')
+     +m('Altura vertical eje–sillín',Math.abs(bb.y-ce.y)*s,'Distancia vertical en imagen; confirma físicamente y define el punto exacto del sillín.')
      +m('Retroceso al centro del sillín',d*(bb.x-ce.x)*s,'Positivo = detrás del eje del pedalier')
      +m('Retroceso a la nariz',d*(bb.x-ns.x)*s,'')
      +bi('Inclinación del sillín',(Math.atan2(tl.y-ns.y,d*(ns.x-tl.x))*180/Math.PI).toFixed(1)+'°','Positivo = nariz arriba')
      +m('Caída sillín–manillar',(br.y-ce.y)*s,'Positivo = manillar más bajo que el sillín')
      +m('Alcance sillín–manillar (horizontal)',d*(br.x-ce.x)*s,'Del centro del sillín al centro del manillar');
   }else{
-    const L=dist(p[0],p[1]),u={x:(p[1].x-p[0].x)/L,y:(p[1].y-p[0].y)/L};s=D/L;tol=Math.max(3,4*s);
-    const off=q=>((q.x-p[0].x)*u.y-(q.y-p[0].y)*u.x)*s,side=v=>Math.abs(v)<1?'':(v>0?' a la derecha de la imagen':' a la izquierda de la imagen'),
-    c=(n,v,t)=>bi(n,Math.abs(v).toFixed(0)+' mm'+side(v),t+'. Umbral orientativo, no validado',cl(Math.abs(v))),lv=(p[7].y-p[6].y)*s;
-    h+=bi('Escala','±'+Math.round(tol)+' mm','Rueda recta y cámara centrada, a 3 m o más. El manillar está más cerca de la cámara que la rueda y puede salir sobreestimado: verifica con cinta métrica.','wn')
-     +bi('Ancho del manillar (extremos)',Math.round(dist(p[2],p[3])*s)+' mm','Medida exterior; el ancho nominal suele medirse centro a centro')
-     +bi('Inclinación del manillar',(Math.atan2(p[3].y-p[2].y,p[3].x-p[2].x)*180/Math.PI).toFixed(1)+'°','0° = horizontal')
-     +c('Centrado de la potencia',off(p[4]),'Respecto al eje de la rueda')
-     +c('Centrado del sillín',off(p[5]),'Respecto al eje de la rueda')
-     +bi('Diferencia de altura de manetas',Math.abs(lv).toFixed(0)+' mm'+(Math.abs(lv)<1?'':lv>0?' (más baja la de la derecha de la imagen)':' (más baja la de la izquierda de la imagen)'),'Umbral orientativo, no validado',cl(Math.abs(lv)));
+    const L=dist(p[0],p[1]);if(L<20){o.innerHTML=info('Medición inválida','—','Marca dos puntos separados en la rueda delantera y repite.');return}const u={x:(p[1].x-p[0].x)/L,y:(p[1].y-p[0].y)/L};s=D/L;tol=Math.max(0.3,4*s);
+    const off=q=>((q.x-p[0].x)*u.y-(q.y-p[0].y)*u.x)*s,side=v=>Math.abs(v)<0.1?'':(v>0?' a la derecha de la imagen':' a la izquierda de la imagen'),
+    c=(n,v,t)=>bi(n,Math.abs(v).toFixed(1)+' cm'+side(v),t+'. Lectura geométrica 2D; verifica con cinta métrica.', ''),lv=(p[7].y-p[6].y)*s;
+    h+=bi('Escala estimada','±'+tol.toFixed(1)+' cm','La distancia entre planos y la perspectiva pueden aumentar el error. Confirma las dimensiones con una cinta métrica.','wn')
+     +bi('Ancho exterior del manillar', (dist(p[2],p[3])*s).toFixed(1)+' cm','Medida exterior de la fotografía; el ancho nominal puede definirse centro a centro.')
+     +bi('Inclinación del manillar',(Math.atan2(p[3].y-p[2].y,p[3].x-p[2].x)*180/Math.PI).toFixed(1)+'°','0° = horizontal; revisar desde una toma nivelada')
+     +c('Desplazamiento lateral de la potencia',off(p[4]),'Respecto a la línea de la rueda; cámara y rueda deben estar centradas')
+     +c('Desplazamiento lateral del sillín',off(p[5]),'Respecto a la línea de la rueda; confirma desde atrás y con medición física')
+     +bi('Diferencia de altura de manetas',Math.abs(lv).toFixed(1)+' cm'+(Math.abs(lv)<0.1?'':lv>0?' (más baja la de la derecha de la imagen)':' (más baja la de la izquierda de la imagen)'),'Diferencia estimada en la imagen; el umbral no está validado.','wn');
   }
   o.innerHTML=h;saveRep(bv);
 }
@@ -294,46 +337,54 @@ function calcBike(){
 // ===== Calas e informe PDF =====
 const REP={},CL={};
 const rowsOf=el=>[...el.querySelectorAll('.r')].map(r=>[r.querySelector('.n').textContent,r.querySelector('.v').textContent,(r.querySelector('.l')||{}).textContent||'']);
-function saveRep(k){REP[k]={rows:rowsOf($('bo')),img:bc.toDataURL('image/jpeg',.7),r:bc.height/bc.width}}
+function saveRep(k){REP[k]={rows:rowsOf($('bo')),img:bc.width&&bc.height?bc.toDataURL('image/jpeg',.65):null,r:bc.width&&bc.height?bc.height/bc.width:null}}
 const RB=(n,v,t,c)=>`<div class="r"><div class="t"><span class="n">${n}</span><span class="v ${c||''}">${v}</span></div><div class="l ${c||'i'}">${t}</div></div>`;
 $('cmm').oninput=()=>{if(bv==='cla'&&bpts.length===9)calcCleat()};
 function calcCleat(){
   const p=bpts,o=$('bo'),Lr=num('cmm'),f=$('cft').value;
-  if(!Lr){o.innerHTML=RB('Falta la longitud de referencia','—','Indica la longitud real de la tarjeta o regla en mm');return}
-  const s=Lr/dist(p[2],p[3]),tol=Math.max(1,3*s),[hl,tp,,,m1,m5,c,r0,r1]=p;
-  const al=dist(hl,tp),au={x:(tp.x-hl.x)/al,y:(tp.y-hl.y)/al},along=(q,o2)=>((q.x-o2.x)*au.x+(q.y-o2.y)*au.y)*s;
+  if(!Lr){o.innerHTML=RB('Falta la longitud de referencia','—','Indica la longitud real de la tarjeta o regla en cm');return}
+  const refPx=dist(p[2],p[3]);if(refPx<10){o.innerHTML=RB('Escala no válida','—','Marca los dos extremos de la regla/tarjeta con más separación.');return}const s=Lr/refPx,tol=Math.max(0.1,3*s),[hl,tp,,,m1,m5,c,r0,r1]=p;
+  const al=dist(hl,tp);if(al<20){o.innerHTML=RB('Pie no medible','—','Revisa los puntos de talón y punta y repite la imagen.');return}const au={x:(tp.x-hl.x)/al,y:(tp.y-hl.y)/al},along=(q,o2)=>((q.x-o2.x)*au.x+(q.y-o2.y)*au.y)*s;
   const mid={x:(m1.x+m5.x)/2,y:(m1.y+m5.y)/2},lon1=along(c,m1),lonM=along(c,mid);
-  const mv={x:m5.x-m1.x,y:m5.y-m1.y},ml=Math.hypot(mv.x,mv.y),lat=((c.x-m1.x)*mv.x+(c.y-m1.y)*mv.y)/ml*s;
+  const mv={x:m5.x-m1.x,y:m5.y-m1.y},ml=Math.hypot(mv.x,mv.y);if(ml<5){o.innerHTML=RB('Referencias anatómicas no válidas','—','Las dos marcas de metatarsianos deben estar separadas y ser identificables.');return}const lat=((c.x-m1.x)*mv.x+(c.y-m1.y)*mv.y)/ml*s;
   const cd={x:r1.x-r0.x,y:r1.y-r0.y},rot=Math.atan2(au.x*cd.y-au.y*cd.x,au.x*cd.x+au.y*cd.y)*180/Math.PI;
-  const mm=v=>(v>=0?'+':'')+v.toFixed(1)+' mm ±'+tol.toFixed(1);
+  const cm=v=>(v>=0?'+':'')+v.toFixed(2)+' cm ±'+tol.toFixed(2)+' cm';
   CL[f]={lon1,lat,rot,tol};
-  let h=RB('Pie medido',f==='L'?'Izquierdo':'Derecho','Largo de la suela: '+Math.round(al*s)+' mm. Escala ±'+tol.toFixed(1)+' mm')
-   +RB('Cala vs 1er metatarsiano',mm(lon1),'Positivo = centro de la cala por delante. Punto de partida habitual: eje del pedal bajo el 1er metatarsiano; el ajuste final se valida pedaleando')
-   +RB('Cala vs punto medio 1º–5º',mm(lonM),'Misma referencia, tomada a mitad de la línea entre ambos metatarsianos')
-   +RB('Posición lateral',mm(lat),'Medida desde el 1er hacia el 5º metatarsiano: '+(lat/(ml*s)*100).toFixed(0)+'% del ancho entre ambas marcas (0% = bajo el 1º, 100% = bajo el 5º)')
+  let h=RB('Pie medido',f==='L'?'Izquierdo':'Derecho','Longitud de la suela: '+(al*s).toFixed(1)+' cm. Escala estimada ±'+tol.toFixed(2)+' cm; verifica con regla.')
+   +RB('Cala vs 1er metatarsiano',cm(lon1),'Positivo = centro de la cala por delante de la marca. Medición geométrica; no es una recomendación automática.')
+   +RB('Cala respecto al punto medio 1.º–5.º metatarsiano',cm(lonM),'Distancia longitudinal hasta el punto medio de las marcas anatómicas.')
+   +RB('Posición lateral',cm(lat),'Medida desde el 1er hacia el 5º metatarsiano: '+(lat/(ml*s)*100).toFixed(0)+'% del ancho entre ambas marcas. Confirma la orientación de la suela y el sistema de pedal.')
    +RB('Rotación de la cala vs eje de la suela',Math.abs(rot).toFixed(1)+'°',Math.abs(rot)<0.5?'Alineada con la suela':'Punta de la cala girada en sentido '+(rot>0?'horario':'antihorario')+' en la imagen (suela vista desde abajo)');
   if(CL.L&&CL.R){
     const d=(a,u)=>Math.abs(a).toFixed(1)+u,w=Math.abs(CL.L.lon1-CL.R.lon1),x=Math.abs(CL.L.lat-CL.R.lat),r=Math.abs(CL.L.rot-CL.R.rot),t2=1.5*Math.max(CL.L.tol,CL.R.tol);
-    h+=RB('Diferencia izquierdo–derecho (longitudinal)',d(w,' mm'),w<=t2?'Dentro del margen de error de la medición':'Mayor que el margen de error: verifica la medición','')
-     +RB('Diferencia izquierdo–derecho (lateral)',d(x,' mm'),x<=t2?'Dentro del margen de error de la medición':'Mayor que el margen de error: verifica la medición')
+    h+=RB('Diferencia izquierdo–derecho (longitudinal)',d(w,' cm'),w<=t2?'Dentro del margen estimado; la precisión no ha sido validada':'Mayor que el margen estimado: verifica físicamente antes de ajustar','')
+     +RB('Diferencia izquierdo–derecho (lateral)',d(x,' cm'),x<=t2?'Dentro del margen estimado; la precisión no ha sido validada':'Mayor que el margen estimado: verifica físicamente antes de ajustar')
      +RB('Diferencia izquierdo–derecho (rotación)',d(r,'°'),'Con la suela fotografiada igual en ambos pies, indica asimetría de montaje. Revisa con calibre antes de mover las calas');
   }
   o.innerHTML=h;saveRep('cla'+f);
 }
-async function pdfReport(){
-  if(!window.jspdf)await new Promise((ok,ko)=>{const e=document.createElement('script');e.src='https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';e.onload=ok;e.onerror=()=>ko(new Error('se necesita conexión para preparar el PDF'));document.head.appendChild(e)});
+function escapeHTML(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function printableFallback(win){
+  if(!win)throw new Error('No se pudo cargar el generador PDF. Permite ventanas emergentes y vuelve a intentarlo, o abre la aplicación con conexión.');
+  const sections=[['Postura lateral',rowsOf($('a'))],['Calas y pie',rowsOf($('b'))],['Medidas antropométricas',rowsOf($('c2'))],['Análisis frontal',rowsOf($('fa'))],['Bicicleta lateral',(REP.lat||{rows:[]}).rows],['Bicicleta frontal',(REP.fro||{rows:[]}).rows],['Cala izquierda',(REP.claL||{rows:[]}).rows],['Cala derecha',(REP.claR||{rows:[]}).rows]];
+  const table=rs=>!rs.length?'<p>Sin mediciones registradas.</p>':'<table><thead><tr><th>Medición</th><th>Resultado</th><th>Observación</th></tr></thead><tbody>'+rs.map(r=>'<tr>'+r.map(c=>'<td>'+escapeHTML(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+  win.document.open();win.document.write('<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Informe HansBikeFit Pro</title><style>body{font:14px Arial,sans-serif;color:#17212b;margin:24px}h1{font-size:22px}h2{font-size:17px;margin-top:26px}p{line-height:1.45}table{width:100%;border-collapse:collapse;margin:10px 0 20px}td,th{border:1px solid #ccd4dc;padding:7px;text-align:left;vertical-align:top}th{background:#edf2f7}.muted{color:#596879}@media print{body{margin:12mm}h2{break-after:avoid}table{break-inside:avoid}}</style></head><body><h1>Informe HansBikeFit Pro</h1><p>'+escapeHTML(new Date().toLocaleDateString('es-CO'))+' · '+escapeHTML($('nm').value||'Ciclista')+'</p><p>Disciplina: '+escapeHTML($('type').selectedOptions[0].text)+' · Pedales: '+escapeHTML($('pedal').selectedOptions[0].text)+'</p><p>Unidades lineales: cm. Ángulos: grados. Las observaciones 2D y los rangos son orientativos; no constituyen diagnóstico.</p>'+sections.map(([title,rs])=>'<h2>'+escapeHTML(title)+'</h2>'+table(rs)).join('')+'<p class="muted">Informe imprimible de respaldo. El archivo de imagen/video original no se incluye. Verifica medidas físicas y límites de componentes.</p><script>window.addEventListener("load",()=>setTimeout(()=>window.print(),350));<\/script></body></html>');win.document.close();win.focus();
+}
+async function pdfReport(fallbackWindow=null){
+  if(!window.jspdf){try{await new Promise((ok,ko)=>{const e=document.createElement('script');e.src='https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';e.onload=ok;e.onerror=()=>ko(new Error('No se pudo cargar el generador PDF'));document.head.appendChild(e)})}catch(e){printableFallback(fallbackWindow);return}}
   const doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'}),W=210,M=14;let y=M;
   const need=h=>{if(y+h>285){doc.addPage();y=M}};
   const H=t=>{need(14);y+=4;doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text(t,M,y);y+=6};
   const T=(t,sz,b)=>{doc.setFont('helvetica',b?'bold':'normal');doc.setFontSize(sz||10);doc.splitTextToSize(t,W-2*M).forEach(l=>{need(5);doc.text(l,M,y);y+=sz?sz*0.45:4.6})};
   const rows=rs=>rs.forEach(([n,v,l])=>{need(10);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(n,M,y);doc.text(v,W-M,y,{align:'right'});y+=4.8;if(l)T(l,8.5);y+=1.2});
-  const sec=(t,rs,img)=>{if(!rs.length)return;H(t);rows(rs);if(img){let w=110,h=w*img.r;if(h>90){h=90;w=h/img.r}need(h+4);doc.addImage(img.img,'JPEG',M,y,w,h);y+=h+4}};
+  const sec=(t,rs,img)=>{if(!rs.length)return;H(t);rows(rs);if(img&&img.img&&img.r){let w=110,h=w*img.r;if(h>90){h=90;w=h/img.r}need(h+4);doc.addImage(img.img,'JPEG',M,y,w,h);y+=h+4}};
   const sel=id=>$(id).selectedOptions[0].text;
-  doc.setFont('helvetica','bold');doc.setFontSize(18);doc.text('Informe HansBikeFit',M,y+4);y+=10;
+  doc.setFont('helvetica','bold');doc.setFontSize(18);doc.text('Informe HansBikeFit Pro',M,y+4);y+=10;
   T(new Date().toLocaleDateString('es-CO')+($('nm').value?' · '+$('nm').value:''),10);
   H('Datos del ciclista');
-  T('Estatura '+num('h')+' cm · Entrepierna '+($('inseam').value||'sin dato')+' cm · Largo del pie '+num('foot')+' cm · Biela '+num('crank')+' mm',10);
+  T('Estatura '+num('h')+' cm · Entrepierna '+($('inseam').value||'sin dato')+' cm · Largo del pie '+num('foot')+' cm · Biela '+num('crank')+' cm',10);
   T('Tipo de bici: '+sel('type')+' · Pedal / calas: '+sel('pedal'),10);
+  T('Unidades lineales mostradas: cm. Ángulos en grados. Referencias fotográficas 2D sujetas a calibración y error.',9);
   sec('Postura en el pedaleo (vista lateral, estimación 2D)',rowsOf($('a')));
   sec('Análisis frontal (observaciones, estimación 2D)',rowsOf($('fa')));
   sec('Calas y pie (análisis de video)',rowsOf($('b')));
@@ -349,7 +400,7 @@ async function pdfReport(){
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Informe HansBikeFit'});return}catch(e){if(e.name==='AbortError')return}}
   doc.save(name);
 }
-$('pdf').onclick=async()=>{try{msg.textContent='Preparando PDF…';await pdfReport();msg.textContent='Informe listo.'}catch(e){msg.textContent='No se pudo crear el PDF: '+e.message}};
+$('pdf').onclick=async()=>{let w=null;try{msg.textContent='Preparando informe…';if(!window.jspdf)w=window.open('about:blank','_blank');await pdfReport(w);if(w&&!w.closed&&window.jspdf)w.close();msg.textContent=window.jspdf?'Informe listo.':'Informe listo para imprimir o guardar como PDF.'}catch(e){if(w&&!w.closed)w.close();msg.textContent='No se pudo crear el informe: '+e.message}};
 
 // ===== Colores y análisis frontal del ciclista =====
 const GR='#4CD6A0',AM='#F5C451',RD='#FF7A6B',RKC={[GR]:0,[AM]:1,[RD]:2};
@@ -358,13 +409,13 @@ const stc=(v,a,b)=>v<=a?GR:v<=b?AM:RD,wc=(a,b)=>RKC[a]>=RKC[b]?a:b,cls=c=>c===GR
 const TT=()=>{const t=$('type').value;return t==='road'?{ok:[30,45],wn:[25,55]}:t==='gravel'?{ok:[35,50],wn:[28,60]}:t==='mtb'?{ok:[40,60],wn:[30,70]}:{ok:[50,75],wn:[40,85]}};
 const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,rng=a=>Math.max(...a)-Math.min(...a);
 let fbuf=[],flast=0;
-$('vw').onchange=()=>{buf=[];fbuf=[];['a','b','c2','fa'].forEach(i=>$(i).innerHTML='');msg.textContent=$('vw').value==='f'?'Vista frontal: cámara de frente, a la altura de la cadera y a unos 3 m, con hombros, caderas, rodillas y pies en cuadro. Tu lado derecho aparece a la izquierda de la imagen. Pedalea constante 10–15 s.':'Vista lateral: cámara de lado, a la altura de la cadera y a unos 3 m.'};
+$('vw').onchange=()=>{buf=[];fbuf=[];cmPerPx=null;calibrationMode=false;calibrationPoint=null;['a','b','c2','fa'].forEach(i=>$(i).innerHTML='');msg.textContent=$('vw').value==='f'?'Vista frontal: cámara de frente, a la altura de la cadera y a unos 3 m, con hombros, caderas, rodillas y pies en cuadro. Tu lado derecho aparece a la izquierda de la imagen. Pedalea constante 10–15 s.':'Vista lateral: cámara de lado, a la altura de la cadera y a unos 3 m.'};
 function analyzeFront(raw){
   const W=cv.width,Hh=cv.height,P=raw.map(p=>({x:p.x*W,y:p.y*Hh,v:p.visibility}));
   const ids=[11,12,23,24,25,26,27,28],[sL,sR,hL,hR,kL,kR,aL,aR]=ids.map(i=>P[i]),hw=Math.abs(hL.x-hR.x);
   const ln=(a,b,c)=>{ctx.strokeStyle=c;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()};
   ctx.lineWidth=Math.max(3,W/300);ctx.lineCap='round';
-  if(!ids.every(i=>P[i].v>0.5)||hw<W/80){msg.textContent='Asegura que se vean hombros, caderas, rodillas y tobillos, de frente.';[[sL,sR],[hL,hR],[sL,hL],[sR,hR],[hL,kL],[kL,aL],[hR,kR],[kR,aR]].forEach(([a,b])=>ln(a,b,'#8FA3B8'));return}
+  if(!ids.every(i=>P[i].v>0.5)||hw<W/80){msg.textContent='Asegura que se vean hombros, caderas, rodillas y tobillos, de frente, con cámara nivelada y centrada.';[[sL,sR],[hL,hR],[sL,hL],[sR,hR],[hL,kL],[kL,aL],[hR,kR],[kR,aR]].forEach(([a,b])=>ln(a,b,'#8FA3B8'));return}
   const now=performance.now(),tilt=(a,b)=>Math.atan2(a.y-b.y,a.x-b.x)*180/Math.PI;
   const dev=(h,k,a,sg)=>sg*(k.x-(h.x+(a.x-h.x)*(k.y-h.y)/((a.y-h.y)||1)))/hw*100;
   fbuf.push({t:now,kl:dev(hL,kL,aL,1),kr:dev(hR,kR,aR,-1),pt:tilt(hL,hR),px:(hL.x+hR.x)/(2*hw)*100,st:tilt(sL,sR),sx:(sL.x+sR.x)/(2*hw)*100});
@@ -386,8 +437,73 @@ function analyzeFront(raw){
    +RB('Desplazamiento lateral de la pelvis',sp.toFixed(0)+'%','Balanceo de las caderas de lado a lado',cls(stc(sp,8,15)))
    +RB('Inclinación de hombros (variación)',rs.toFixed(1)+'°','',cls(stc(rs,6,10)))
    +RB('Balanceo lateral de hombros',ss.toFixed(0)+'%','',cls(stc(ss,8,15)))
-   +RB('Cómo leer estos valores','%','Porcentajes del ancho de tus caderas, sin calibrar en mm. Son observaciones 2D con umbrales orientativos no validados: no diagnostican nada. Si algo sale rojo, repite con la cámara nivelada y compara con un fitter.');
+   +RB('Cómo leer estos valores','%','Porcentajes relativos del ancho de caderas, sin calibración física. Son observaciones 2D con umbrales orientativos no validados; no diagnostican ni prescriben ajustes.');
 }
+
+
+// ===== Persistencia local de sesiones, respaldo e importación =====
+const SESS_KEY='hansbikefit_sessions_v2';
+const sessionFormIds=[...ids,'sessionName'];
+const resultIds=['a','b','c2','fa','bo'];
+function readSessions(){try{const v=JSON.parse(localStorage.getItem(SESS_KEY)||'[]');return Array.isArray(v)?v:[]}catch(_){return []}}
+function writeSessions(v){try{localStorage.setItem(SESS_KEY,JSON.stringify(v));return true}catch(e){msg.textContent='No se pudo guardar. El almacenamiento local puede estar lleno; exporta y elimina sesiones antiguas.';return false}}
+function renderSessions(selected=''){
+  const sel=$('sessionSelect'),all=readSessions();sel.innerHTML='';
+  if(!all.length){sel.add(new Option('Sin sesiones guardadas',''));return}
+  sel.add(new Option('Selecciona una sesión',''));
+  all.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||'')).forEach(x=>sel.add(new Option(`${x.name} · ${new Date(x.updatedAt||x.createdAt||Date.now()).toLocaleDateString('es-CO')}`,x.id)));
+  sel.value=selected&&all.some(x=>x.id===selected)?selected:'';
+}
+function formSnapshot(){const out={};for(const id of ids){if($(id))out[id]=$(id).value}return out}
+function resultSnapshot(){const out={};for(const id of resultIds)out[id]=$(id).innerHTML;return out}
+function sanitizeSavedHTML(html){const tpl=document.createElement('template');tpl.innerHTML=String(html);tpl.content.querySelectorAll('script,iframe,object,embed,style,link,form').forEach(n=>n.remove());tpl.content.querySelectorAll('*').forEach(n=>[...n.attributes].forEach(a=>{if(/^on/i.test(a.name)||/javascript:/i.test(a.value))n.removeAttribute(a.name)}));return tpl.innerHTML}
+function createSessionSnapshot(){
+  const name=$('sessionName').value.trim()||$('nm').value.trim()||'Sesión Bike Fitting';
+  // No se incluyen archivos, imágenes ni videos para minimizar el almacenamiento de datos sensibles.
+  return {id:(crypto.randomUUID?crypto.randomUUID():'bf-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)),name,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),form:formSnapshot(),results:resultSnapshot(),reports:Object.fromEntries(Object.entries(REP).map(([k,v])=>[k,{rows:v.rows||[],r:v.r||null}])),cleats:JSON.parse(JSON.stringify(CL)),note:'Sesión local; no contiene fotografías ni videos originales.'};
+}
+$('saveSession').addEventListener('click',()=>{
+  const all=readSessions(),item=createSessionSnapshot(),index=all.findIndex(x=>x.id===item.id);
+  // Guarda una nueva sesión. Se conserva el historial previo sin sobrescribirlo.
+  all.unshift(item);
+  if(!writeSessions(all))return;
+  renderSessions(item.id);msg.textContent='Sesión guardada en este dispositivo. Recuerda exportar un respaldo si necesitas transferirla.';
+});
+$('loadSession').addEventListener('click',()=>{
+  const item=readSessions().find(x=>x.id===$('sessionSelect').value);if(!item){msg.textContent='Selecciona una sesión guardada.';return}
+  Object.entries(item.form||{}).forEach(([id,v])=>{if($(id)&&v!=null)$(id).value=v});
+  $('sessionName').value=item.name||'';
+  Object.entries(item.results||{}).forEach(([id,html])=>{if($(id))$(id).innerHTML=sanitizeSavedHTML(html||'')});
+  for(const k of Object.keys(REP))delete REP[k];Object.entries(item.reports||{}).forEach(([k,v])=>REP[k]={rows:v.rows||[],r:v.r||null,img:null});
+  for(const k of Object.keys(CL))delete CL[k];Object.assign(CL,item.cleats||{});
+  try{localStorage.setItem('bf',JSON.stringify(formSnapshot()))}catch(_){}
+  msg.textContent='Sesión cargada. Las imágenes originales no se guardan en la sesión local; las medidas y resultados de texto sí.';
+});
+$('deleteSession').addEventListener('click',()=>{
+  const id=$('sessionSelect').value;if(!id){msg.textContent='Selecciona una sesión para eliminar.';return}
+  if(!confirm('¿Eliminar esta sesión guardada del dispositivo?'))return;
+  writeSessions(readSessions().filter(x=>x.id!==id));renderSessions();msg.textContent='Sesión eliminada del almacenamiento local.';
+});
+$('exportBackup').addEventListener('click',()=>{
+  const payload={app:'HansBikeFit Pro',schemaVersion:2,exportedAt:new Date().toISOString(),profile:formSnapshot(),sessions:readSessions()};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='hansbikefit-respaldo-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);msg.textContent='Respaldo JSON exportado. Guárdalo en un lugar privado.';
+});
+$('importBackup').addEventListener('change',async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  try{const data=JSON.parse(await file.text());if(!data||!Array.isArray(data.sessions))throw new Error('El archivo no tiene un formato de respaldo reconocido.');
+    const existing=readSessions(),byId=new Map(existing.map(x=>[x.id,x]));for(const x of data.sessions){if(x&&x.id&&x.form)byId.set(x.id,x)}
+    const merged=[...byId.values()].sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));if(!writeSessions(merged))return;
+    if(data.profile&&typeof data.profile==='object')Object.entries(data.profile).forEach(([id,v])=>{if($(id)&&v!=null)$(id).value=v});
+    try{localStorage.setItem('bf',JSON.stringify(formSnapshot()))}catch(_){}renderSessions();msg.textContent='Respaldo importado. Revisa las sesiones antes de continuar.';
+  }catch(err){msg.textContent='No se pudo importar el respaldo: '+err.message}finally{e.target.value=''}
+});
+$('clearLocal').addEventListener('click',()=>{
+  if(!confirm('Esto eliminará el perfil guardado y todas las sesiones de este navegador. ¿Continuar?'))return;
+  stopStream();video.pause();if(currentObjectURL){URL.revokeObjectURL(currentObjectURL);currentObjectURL=null;}
+  localStorage.removeItem('bf');localStorage.removeItem(SESS_KEY);renderSessions();['a','b','c2','fa','bo'].forEach(id=>{if($(id))$(id).innerHTML=''});Object.keys(REP).forEach(k=>delete REP[k]);Object.keys(CL).forEach(k=>delete CL[k]);bpts=[];bv=null;sessionFormIds.forEach(id=>{if($(id)&&['type','pedal','wsel','cft'].includes(id))return;if($(id))$(id).value=''});$('h').value='175';$('foot').value='26';$('crank').value='17';$('calref').value='50';$('wmm').value='68';$('cmm').value='8.56';$('type').value='road';$('pedal').value='spdsl';$('wsel').value='68';$('cft').value='L';msg.textContent='Datos locales eliminados. Verifica que no haya archivos descargados aparte.';
+});
+renderSessions();
+
 </script>
 </body>
 </html>
